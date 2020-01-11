@@ -2,7 +2,7 @@ PROJECT 	= Assembler
 CC			= gcc
 FLAGS		= -Wall -Wextra -Werror
 NAME		= asm
-FILENAMES 	= sources/main.c\
+FILENAMES 	= sources/main.c sources/op.c \
 			  sources/error.c sources/read_instructions.c sources/read_commands.c
 HDR 		= -I./includes -I./libft/
 LIBFT		= libft/libft.a

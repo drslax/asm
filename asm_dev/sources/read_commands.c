@@ -113,7 +113,7 @@ void	print_data(t_asm *data)
 	while (inst)
 	{
 		printf("%d° inst:\n", i + 1);
-		printf("\t%s %s %s %s %s\n", inst->label, inst->name, inst->args[0], inst->args[1], inst->args[2]);
+		printf("\t%s [%s] [%s] [%s] [%s]\n", inst->label, inst->name, inst->args[0], inst->args[1], inst->args[2]);
 		inst = inst->next;
 		i += 1;
 	}
