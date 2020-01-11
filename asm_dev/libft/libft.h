@@ -95,6 +95,7 @@ void				ft_putstr_fd(char const *s, int fd);
 void				ft_putnbr_fd(int nb, int fd);
 char				*ft_itoa(int n);
 int					ft_putchar(int c);
+char				*ft_strnjoin(char *s1, char *s2, size_t len);
 
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));

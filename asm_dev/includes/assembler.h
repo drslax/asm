@@ -41,5 +41,6 @@ void    error(char *str);
 void	read_file(int filedesc, t_asm *data);
 
 void	get_instructions(int filedesc, t_asm *data);
+void	allocate_instruction(t_inst **new);
 
 #endif

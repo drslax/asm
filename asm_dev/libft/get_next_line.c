@@ -3,120 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abiri <kerneloverseer@protonmail>          +#+  +:+       +#+        */
+/*   By: aelouarg <anas.elouargui@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 13:50:29 by abiri             #+#    #+#             */
-/*   Updated: 2019/05/03 19:20:05 by abiri            ###   ########.fr       */
+/*   Created: 2018/10/20 04:39:02 by aelouarg          #+#    #+#             */
+/*   Updated: 2018/10/21 07:38:59 by aelouarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static t_list	*newfile(int fd)
+static	unsigned int	ft_linelen(char *tab)
 {
-	t_list *result;
+	unsigned int	i;
 
-	if (!(result = malloc(sizeof(t_list))))
-		return (NULL);
-	result->content = NULL;
-	result->content_size = fd;
-	result->next = NULL;
-	return (result);
+	i = 0;
+	while (tab[i] != '\n' && tab[i] != '\0')
+		i++;
+	return (i);
 }
 
-static t_list	*getfile(t_list **filelist, int fd)
+static	char			*ft_line(char *tab)
 {
-	t_list *cursor;
-
-	if (fd < 0)
-		return (NULL);
-	if (!(*filelist))
-		*filelist = newfile(fd);
-	cursor = *filelist;
-	while (cursor)
+	if (ft_strchr(tab, '\n'))
 	{
-		if (cursor->content_size == (size_t)fd)
-			return (cursor);
-		cursor = cursor->next;
+		ft_strcpy(tab, ft_strchr(tab, '\n') + 1);
+		return (tab);
 	}
-	return (ft_lstpush(*filelist, newfile(fd)));
+	if (ft_linelen(tab) > 0)
+	{
+		ft_strcpy(tab, ft_strchr(tab, '\0'));
+		return (tab);
+	}
+	return (NULL);
 }
 
-static void		cleanfile(t_list **filelist, int fd)
+int						get_next_line(int const fd, char **line)
 {
-	t_list *iter;
-	t_list *temp;
+	char			*tmp;
+	char			buff[BUFF_SIZE + 1];
+	static char		*tab[256];
+	int				ret;
 
-	iter = *filelist;
-	if (iter->content_size == (size_t)fd)
+	if (fd < 0 || BUFF_SIZE < 1 || !line || read(fd, buff, 0) < 0)
+		return (-1);
+	if (!(tab[fd]) && (tab[fd] = ft_strnew(0)) == NULL)
+		return (-1);
+	while (!(ft_strchr(tab[fd], '\n')) && (ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		*filelist = iter->next;
-		free(iter->content);
-		free(iter);
+		buff[ret] = '\0';
+		tmp = tab[fd];
+		tab[fd] = ft_strnjoin(tmp, buff, ret);
+		free(tmp);
 	}
-	else
-	{
-		while (iter->next)
-		{
-			if (iter->next->content_size == (size_t)fd)
-			{
-				temp = iter->next->next;
-				free(iter->next->content);
-				free(iter->next);
-				iter->next = temp;
-			}
-			iter = iter->next;
-		}
-	}
-}
-
-static int		getline(t_list *stock, char **line, int *r)
-{
-	char	*temp;
-	size_t	c;
-	int		flag;
-
-	c = 0;
-	temp = stock->content;
-	if (!temp)
-	{
-		*line = NULL;
+	*line = ft_strsub(tab[fd], 0, ft_linelen(tab[fd]));
+	if (ft_line(tab[fd]) == NULL)
 		return (0);
-	}
-	while (temp[c] && temp[c] != '\n')
-		c++;
-	flag = (temp[c] == '\n');
-	*line = ft_strsub(temp, 0, c);
-	if (flag)
-		stock->content = ft_strsub(temp, c + flag, ft_strlen(temp) - flag);
-	else
-		stock->content = NULL;
-	free(temp);
-	*r = (c != 0);
-	return (flag);
-}
-
-int				get_next_line(int fd, char **line)
-{
-	static	t_list	*stock = NULL;
-	t_list			*node;
-	char			buffer[BUFF_SIZE + 1];
-	char			*copy;
-	int				r;
-
-	node = getfile(&stock, fd);
-	while ((r = read(fd, buffer, BUFF_SIZE)))
-	{
-		if (r < 0 || fd < 0 || line == NULL)
-			return (-1);
-		buffer[r] = '\0';
-		copy = node->content;
-		node->content = ft_strjoin(copy, buffer);
-		free(copy);
-		if (ft_ischarin(buffer, '\n'))
-			break ;
-	}
-	if (!getline(node, line, &r) && fd != 0)
-		cleanfile(&stock, fd);
-	return (r);
+	return (1);
 }

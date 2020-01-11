@@ -71,6 +71,7 @@ SRC = ft_atoi.c\
 	  ft_strncpy.c\
 	  ft_strnequ.c\
 	  ft_strnew.c\
+	  ft_strnjoin.c\
 	  ft_strnstr.c\
 	  ft_strrchr.c\
 	  ft_strsort.c\
