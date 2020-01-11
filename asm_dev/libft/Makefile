@@ -116,14 +116,11 @@ FLAGS = -Wall -Werror -Wextra
 
 all: $(NAME)
 $(NAME):
-	@gcc $(FLAGS) -I. -c $(SRC)
+	@gcc -I. -c $(SRC)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@make -C ./ft_printf
 clean:
 	@rm -f $(OBJ)
-	@make -C ./ft_printf clean
 fclean: clean
 	@rm -f $(NAME)
-	@make -C ./ft_printf fclean
 re: fclean all

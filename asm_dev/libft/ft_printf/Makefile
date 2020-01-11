@@ -69,7 +69,7 @@ $(NAME):  $(OBJ) | $(LIBFT)
 	@ar -cr $(NAME) $(OBJ)
 
 $(OBJ):	$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HDR) | $(OBJ_DIR)
-	@$(CC) $(FLAGS) -c $< -o $@ 
+	@$(CC) -c $< -o $@ 
 	@printf "$(_IYELLOW) $(_END)"
 
 $(LIBFT) : 
