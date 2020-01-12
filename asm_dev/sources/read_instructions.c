@@ -26,13 +26,22 @@ void	add_instruction(t_asm **data, t_inst *new)
 	current->next = new;
 }
 
+int		last_arg(char *last)
+{
+	int	len;
+
+	len = 0;
+	while (*(last + len) && !ft_ischarin(WHITESPACES, *(last + len)))
+		len += 1;
+	return (len);
+}
+
 void	manage_arguments(char *line, t_inst *new)
 {
 	char	*comma;
+	char	*tmp;
 	int		index;
-	int		len;
 
-	len = 0;
 	index = 0;
 	while (ft_ischarin(WHITESPACES, *line))
 		line += 1;
@@ -45,22 +54,22 @@ void	manage_arguments(char *line, t_inst *new)
 			while (ft_ischarin(WHITESPACES, *line))
 				line += 1;
 			new->args[1] = ft_strsub(line, 0, comma - line);
-			if (comma + 1)
+			if (comma && comma + 1)
 			{
 				while (ft_ischarin(WHITESPACES, *comma))
 					comma += 1;
-				new->args[2] = ft_strdup(comma + 1);
+				new->args[2] = ft_strsub(comma + 1, 0, last_arg(comma + 1));
 			}
 		}
-		else if (comma + 1)
+		else if (comma && comma + 1)
 		{
-			while (ft_ischarin(WHITESPACES, *comma))
+			while (ft_ischarin(WHITESPACES, *(comma)))
 				comma += 1;
-			new->args[1] = ft_strdup(comma + 1);
+			new->args[1] = ft_strsub(comma + 1, 0, last_arg(comma + 1));
 		}
 	}
 	else
-		new->args[0] = ft_strdup(line);
+		new->args[0] = ft_strsub(line, 0, last_arg(line));
 }
 
 int		manage_inst_name(char *line, t_inst *new)
@@ -113,6 +122,15 @@ void	manage_label(char *line, t_inst *inst)
 		inst->label = NULL;
 }
 
+int		emptylines(char *line)
+{
+	while (ft_ischarin(WHITESPACES, *line))
+		line += 1;
+	if (!*line)
+		return (1);
+	return (0);
+}
+
 void    get_instructions(int filedesc, t_asm *data)
 {
 	char	*line;
@@ -120,18 +138,24 @@ void    get_instructions(int filedesc, t_asm *data)
 	int		EOL;
 	int		args;
 	t_inst	*new;
+	// int		i;
 
+	// i = 2;
 	while ((EOL = get_next_line(filedesc, &line)) >= 0)
 	{
+		// printf("line %i %s\n", i + 1, line);
 		if (line && line[0] != COMMENT_CHAR)
 		{
 			comment = ft_strchr(line, COMMENT_CHAR);
 			if (comment)
 				comment[0] = '\0';
+			if (emptylines(line))
+				continue ;
 			allocate_instruction(&new);
 			manage_label(line, new);
 			args = manage_inst_name(line, new);
-			printf("%d\n",			args);
+		// printf("easy\n");
+			// printf("%d\n",			args);
 			manage_arguments(line + args, new);
 			add_instruction(&data, new);
 		}
