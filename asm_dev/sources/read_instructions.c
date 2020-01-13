@@ -61,11 +61,15 @@ void	manage_arguments(char *line, t_inst *new)
 				new->args[2] = ft_strsub(comma + 1, 0, last_arg(comma + 1));
 			}
 		}
-		else if (comma && comma + 1)
+		else if (!comma && line)
 		{
-			while (ft_ischarin(WHITESPACES, *(comma)))
-				comma += 1;
-			new->args[1] = ft_strsub(comma + 1, 0, last_arg(comma + 1));
+			printf("line = [%s]\n", line);
+			while (line && ft_ischarin(WHITESPACES, *(line)))
+				line += 1;
+			printf("line = [%s]\n", line);
+			if (!line)
+				error("MISSING ARGUMENT");
+			new->args[1] = ft_strsub(line, 0, last_arg(line));
 		}
 	}
 	else
