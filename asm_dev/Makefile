@@ -11,7 +11,7 @@ all: $(NAME)
 
 $(NAME):
 	@make -C ./libft
-	@$(CC) -o $(NAME) $(FILENAMES) $(HDR) $(LIBFT)
+	@$(CC) $(FLAGS) -o $(NAME) $(FILENAMES) $(HDR) $(LIBFT)
 
 clean:
 	@make clean -C ./libft

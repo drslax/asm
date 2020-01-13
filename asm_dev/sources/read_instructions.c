@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 23:13:25 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/11 00:08:27 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/13 18:32:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int		last_arg(char *last)
 void	manage_arguments(char *line, t_inst *new)
 {
 	char	*comma;
-	char	*tmp;
 	int		index;
 
 	index = 0;
@@ -63,10 +62,8 @@ void	manage_arguments(char *line, t_inst *new)
 		}
 		else if (!comma && line)
 		{
-			printf("line = [%s]\n", line);
 			while (line && ft_ischarin(WHITESPACES, *(line)))
 				line += 1;
-			printf("line = [%s]\n", line);
 			if (!line)
 				error("MISSING ARGUMENT");
 			new->args[1] = ft_strsub(line, 0, last_arg(line));
@@ -99,12 +96,12 @@ int		manage_inst_name(char *line, t_inst *new)
 	if (new->name)
 		return (args);
 	error("INVALID NAME INSTRUCTION");
+	return (-1);
 }
 
 void	manage_label(char *line, t_inst *inst)
 {
 	int		index;
-	int		jndex;
 	char	*label;
 
 	if (((label = ft_strchr(line, ':')) &&

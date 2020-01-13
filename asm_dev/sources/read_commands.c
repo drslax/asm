@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 22:00:03 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/10 23:53:14 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/14 00:53:19 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	store_name_cmd(t_asm *data, char *line)
 	char	*first_quotes;
 	char	*last_quotes;
 
+	if (data->cmd_name)
+		error("PROG NAME COMMAND ALREADY DEFINED");
 	if ((length = ft_strlen(line)) <= PROG_NAME_LENGTH + 2)
 	{
 		first_quotes = ft_strchr(line, '"') + 1;
@@ -48,6 +50,8 @@ void	store_comment_cmd(t_asm *data, char *line)
 	char	*first_quotes;
 	char	*last_quotes;
 
+	if (data->cmd_comment)
+		error("COMMENT COMMAND ALREADY DEFINED");
 	if ((length = ft_strlen(line)) <= COMMENT_LENGTH + 2)
 	{
 		first_quotes = ft_strchr(line, '"') + 1;
@@ -64,7 +68,6 @@ void	get_command(char *line, t_asm *data)
 	char	*cmd;
 	int		name_cmd;
 	int		comment_cmd;
-	size_t	length;
 
 	name_cmd = 0;
 	comment_cmd = 0;
@@ -138,11 +141,13 @@ void	read_file(int filedesc, t_asm *data)
 		}
 		ft_memdel((void**)&line);
 	}
+	//1 read + store inst and command
 	allocate_instruction(&data->instructions);
 	// get_command(filedesc, data);
 	if (!command)
 		get_instructions(filedesc, data);
 	else
 		error("MISSING COMMAND NAME/COMMENT");
-	print_data(data);
+	//print_data(data);
+	printf("Writing output program to .cor\n");
 }
