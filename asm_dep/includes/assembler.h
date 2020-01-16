@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assembler.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/13 21:01:27 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/16 04:02:54 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct	s_instructions
 
 typedef struct	s_asm
 {
+	char	*file_name;
 	char	*cmd_name;
 	char	*cmd_comment;
 	t_inst	*instructions;
@@ -38,4 +39,5 @@ typedef struct	s_asm
 
 void	free_s_asm(t_asm *data);
 int		ft_raise_exception(int error_code, char *custom);
+int		read_file(int filedesc, t_asm *data);
 #endif

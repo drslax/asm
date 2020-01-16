@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/13 23:38:40 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/16 04:02:17 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		parse_args(char *filename, t_asm *data)
 		{
 			free_s_asm(data);
 			error = strerror(errno);
-			ft_raise_exception(15, error);
+			ft_raise_exception(17, error);
 			ft_memdel((void**)&error);
 			return (0);
 		}
@@ -68,10 +68,11 @@ int		parse_args(char *filename, t_asm *data)
 	return (1);
 }
 
-void	initialize_asm(t_asm **data)
+void	initialize_asm(t_asm **data, char *arg)
 {
 	if (!(*data = (t_asm *)malloc(sizeof(t_asm))))
 		exit(-1);
+	(*data)->file_name = arg;
 	(*data)->cmd_comment = NULL;
 	(*data)->cmd_name = NULL;
 	(*data)->instructions = NULL;
@@ -86,7 +87,7 @@ int		main(int argc, char **argv)
 	if (argc > 1)
 		while (++iterator < argc)
 		{
-			initialize_asm(&data);
+			initialize_asm(&data, argv[iterator]);
 			if (!parse_args(argv[iterator], data))
 				continue ;
 			free_s_asm(data);
