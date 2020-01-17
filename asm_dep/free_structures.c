@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_structures.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 20:24:16 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/13 22:05:26 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/16 04:12:10 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_s_instructions(t_inst *inst)
 		ft_memdel((void**)&tmp->args[0]);
 		ft_memdel((void**)&tmp->args[1]);
 		ft_memdel((void**)&tmp->args[2]);
-//		ft_memdel((void**)tmp->args);
 		ft_memdel((void**)&tmp);
 	}
 }

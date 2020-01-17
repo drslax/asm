@@ -1,6 +1,6 @@
 PROJECT 	= Assembler
 CC			= gcc
-FLAGS		= -Wall -Wextra -Werror
+FLAGS		= -Wall -Wextra -Werror -g
 NAME		= asm
 FILENAMES 	= *.c 
 HDR 		= -I./includes -I./libft/

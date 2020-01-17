@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/16 04:02:17 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/16 22:25:52 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int		parse_args(char *filename, t_asm *data)
 		if (!errno)
 		{
 			if (!read_file(filedesc, data))
+			{
+				free_s_asm(data);
 				return (0);
+			}
 		}
 		else
 		{

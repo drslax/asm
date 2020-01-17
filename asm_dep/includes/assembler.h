@@ -6,14 +6,14 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/16 04:02:54 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/16 23:36:39 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASSEMBLER_H
 # define ASSEMBLER_H
 # include "op.h"
-# include "libft.h"
+# include "../libft/libft.h"
 # include <errno.h>
 # include <stdio.h>
 
@@ -40,4 +40,13 @@ typedef struct	s_asm
 void	free_s_asm(t_asm *data);
 int		ft_raise_exception(int error_code, char *custom);
 int		read_file(int filedesc, t_asm *data);
+void	allocate_instruction(t_inst **instructions);
+int		get_instructions(char *line, t_asm *data);
+void	print_data(t_asm *data);
+
+int		skip_wsp(char *line);
+int		skip_not_wsp(char *line);
+int		ignore_wsp(char *line);
+
+
 #endif

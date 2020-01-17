@@ -6,12 +6,11 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/16 04:02:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/17 01:35:14 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
-
 
 int		skip_wsp(char *line)
 {
@@ -36,6 +35,16 @@ int		ignore_wsp(char *line)
 		len -= 1;
 	}
 	return (sp);
+}
+
+int		skip_not_wsp(char *line)
+{
+	int	not_sp;
+
+	not_sp = 0;
+	while (line && !ft_ischarin(WHITESPACES, *(line + not_sp)))
+		not_sp += 1;
+	return (not_sp);
 }
 
 char		*check_double_quotes(char *cmd, int cmd_len)
@@ -83,7 +92,10 @@ int		store_name_cmd(t_asm *data, char *line)
 			ft_raise_exception(6, ft_itoa(PROG_NAME_LENGTH));
 	}
 	else
-		ft_raise_exception(17, NULL);
+		return (0);
+	
+	// else
+	// 	ft_raise_exception(17, NULL);
 	return (1);
 }
 
@@ -102,7 +114,6 @@ int		store_comment_cmd(t_asm *data, char *line)
 	}
 	else
 		ft_raise_exception(17, NULL);
-	// exit(0);
 	return (1);
 }
 
@@ -169,18 +180,25 @@ int		read_file(int filedesc, t_asm *data)
 			{
 				if (!(get_command(line + skipped, data)))
 					return (0);
-			}	
+			}
 			else
 			{
-				allocate_instruction(&data->instructions);
-				//if (!get_instructions(filedesc, data))
-						// return (1);
+				printf("line = %s\n", line + skipped);
+				allocate_instruction(&(data->instructions));
+				if (!get_instructions(line + skipped, data))
+				{
+					// free_s_asm(data);
+					// ft_memdel((void**)&line);
+					return (0);
+				}
 			}
 		}
 		ft_memdel((void**)&line);
 		if (!eol)
 			break ;
 	}
+	print_data(data);
+
 	printf("eol");
 	return (1);
 }

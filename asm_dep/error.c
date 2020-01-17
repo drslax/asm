@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:43:44 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/16 02:50:44 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/16 23:56:29 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char    *g_error_strings[] =
 	"Invalid name instruction",//12
 	"Invalid chars in label",//13
 	"Invalid ENDLINE character",//14
-	"",//15
+	"Syntax Error",//15
 	"",//16
 	NULL
 };
@@ -43,8 +43,9 @@ int ft_raise_exception(int error_code, char *custom)
 	ft_putstr_fd(error_string, 2);
 	if (custom)
 	{
-		ft_putstr_fd(" ", 2);
+		ft_putstr_fd(" [", 2);
 		ft_putstr_fd(custom, 2);
+		ft_putstr_fd("]", 2);
 	}
 	ft_putchar_fd('\n', 2);
 	return (0);
