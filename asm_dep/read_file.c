@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/17 01:35:14 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 00:41:27 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		skip_not_wsp(char *line)
 	int	not_sp;
 
 	not_sp = 0;
-	while (line && !ft_ischarin(WHITESPACES, *(line + not_sp)))
+	while (line && *(line + not_sp) && !ft_ischarin(WHITESPACES, *(line + not_sp)))
 		not_sp += 1;
 	return (not_sp);
 }
@@ -183,8 +183,7 @@ int		read_file(int filedesc, t_asm *data)
 			}
 			else
 			{
-				printf("line = %s\n", line + skipped);
-				allocate_instruction(&(data->instructions));
+				// printf("line = %s\n", line + skipped);
 				if (!get_instructions(line + skipped, data))
 				{
 					// free_s_asm(data);
