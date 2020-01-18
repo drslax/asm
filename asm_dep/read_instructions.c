@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 00:45:18 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 04:45:59 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,32 +105,35 @@ int		single_or_less_argument(char *line, t_inst *new)
 		return (ft_raise_exception(14, line + arg_length + endline));
 }
 
+int		store_arg_and_skip(char *line, char *separator, t_inst *new, int index)
+{
+	int	arg_length;
+	char	*tmp;
+
+	tmp = ft_strsub(line, 0, separator - line);
+	arg_length = skip_not_wsp(tmp);
+	new->args[index] = ft_strsub(line, 0, arg_length);
+	ft_memdel((void**)&tmp);
+	arg_length += skip_wsp(line + arg_length);
+	return (arg_length);
+}
+
 int		multiple_args(char *line, t_inst *new, char *separator)
 {
 	int	arg_length;
 	int	index;
 	char	*tmp;
-	int	mem_index;
 
-	// arg_length = skip_not_wsp(line);
 	arg_length = 0;
-	new->args[0] = ft_strsub(line, 0, separator - line);
-	arg_length = (int)(separator - line);
-	arg_length += skip_wsp(line + arg_length);
+	arg_length = store_arg_and_skip(line, separator, new, 0);
 	if (line + arg_length == separator)
 	{
 		arg_length += skip_wsp(line + arg_length + 1) + 1;
 		index = arg_length;
-		mem_index = index;
 		if ((separator = ft_strchr(line + index, SEPARATOR_CHAR)))
 		{
-			// arg_length = skip_not_wsp(line + index);
-			new->args[1] = ft_strsub(line + index, 0, separator - line - index);
-			// new->args[1] = ft_strsub(line + index, 0, arg_length);
-			arg_length = separator - line - index;
-			index += skip_wsp(line + index + arg_length);
+			arg_length = store_arg_and_skip(line + index, separator, new, 1);
 			tmp = line + index + arg_length;
-			// printf("line + index = [%s]\n", line + index + arg_length);
 			if (*(line + index + arg_length) == SEPARATOR_CHAR)
 			{
 				tmp += 1;
@@ -140,14 +143,12 @@ int		multiple_args(char *line, t_inst *new, char *separator)
 				if (!*(tmp + index + arg_length + skip_wsp(tmp + index + arg_length)))
 					return (1);
 				else
-					return (ft_raise_exception(14, NULL));
+					return (ft_raise_exception(14, tmp + index + arg_length));
 			}
 			else if (!*(line + index + arg_length))
 				return (1);
 			else
 				return(ft_raise_exception(14, line + index + arg_length));
-			// else
-			// 	return (ft_raise_exception(15, NULL));
 		}
 		else
 		{
@@ -177,10 +178,8 @@ int		manage_arguments(char *line, t_inst *new)
 			return (0);
 	}	
 	else
-	{
 		if (!(single_or_less_argument(line, new)))
 			return (0);
-	}
 	return (1);
 }
 
@@ -222,7 +221,6 @@ int 	manage_label(char *line, t_inst *inst)
 				{
 					ft_memdel((void**)&inst->label);
 					ft_raise_exception(13, NULL);
-					// error("INVALID CHARS IN LABEL");
 				}
 				index += 1;
 			}
@@ -261,7 +259,6 @@ int    get_instructions(char *line, t_asm *data)
     t_inst  *new;
 
     allocate_instruction(&new);
-    //needs add inst to list;
     if (!line)
         return (ft_raise_exception(17, NULL));
 	if (!*line)
@@ -269,12 +266,16 @@ int    get_instructions(char *line, t_asm *data)
     spaces = manage_label(line, new); // later will be new, add before return;
 	// printf("line + label + spaces = [%s]\n", line + spaces);
     if (!*(line + spaces) && spaces)
-        return (1);
+    {
+	    add_instruction(&data, new);
+	    return (1);
+	}
 	else if (!*(line + spaces) && !spaces)
 		return (ft_raise_exception(12, line));
     spaces += manage_inst_name(line + spaces, new);
 	// printf("line + label + spaces + inst + spaces= [%s]\n", line + spaces);
-
+	if (!spaces)
+		return (0);
     // free before return (0);
     if (!*(line + spaces))
         return (ft_raise_exception(14, NULL));

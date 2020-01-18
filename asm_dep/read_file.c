@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 00:41:27 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 04:36:15 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int		read_file(int filedesc, t_asm *data)
 	while ((eol = get_next_line(filedesc, &line)) >= 0)
 	{
 		skipped = skip_wsp(line);
-		if (line && line[0] != COMMENT_CHAR)
+		if (line && line[0] != COMMENT_CHAR && !ft_strequ(line, ""))
 		{
 			if ((comment = ft_strchr(line, COMMENT_CHAR)))
 				comment[0] = '\0';

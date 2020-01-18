@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/17 23:13:48 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 04:37:42 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	initialize_asm(t_asm **data, char *arg)
 	(*data)->file_name = arg;
 	(*data)->cmd_comment = NULL;
 	(*data)->cmd_name = NULL;
+	(*data)->instructions = NULL;
 	allocate_instruction(&(*data)->instructions);
 
-	// (*data)->instructions = NULL;
 }
 
 int		main(int argc, char **argv)
