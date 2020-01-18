@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 06:31:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 22:17:09 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,19 @@ void	allocate_instruction(t_inst **instructions)
 	(*instructions)->next = NULL;
 }
 
+int		force_quit(char *line, t_asm *data, t_inst *inst)
+{
+	line ? ft_memdel((void**)&line) : 0;
+	data ? free_s_asm(data) : 0;
+	(void)inst;
+	inst ? free_s_instructions(inst) : 0;
+	return (0);
+}
+
+/*
+** force quit in return (0)
+*/
+
 int		read_file(int filedesc, t_asm *data)
 {
 	int		eol;
@@ -179,18 +192,13 @@ int		read_file(int filedesc, t_asm *data)
 			else
 			{
 				if (!get_instructions(line + skipped, data))
-				{
-// free_s_asm(data);
-// ft_memdel((void**)&line);
 					return (0);
-				}
 			}
 		}
 		ft_memdel((void**)&line);
 		if (!eol)
 			break ;
 	}
-	print_data(data);
-	printf("eol");
+	printf("\e[1m\e[42m√\e[0m:\n");
 	return (1);
 }

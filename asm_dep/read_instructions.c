@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 06:15:59 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 22:16:07 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,33 @@ void	add_instruction(t_asm **data, t_inst *new)
 	current->next = new;
 }
 
-void	print_data(t_asm *data)
+void	print_data(t_asm *data, int debug)
 {
 	t_inst	*inst;
 	int		i;
 
-	i = 0;
-	printf("\n*************printing data***********\n");
-	printf(".filename %s\n", data->file_name);
-	printf(".name %s\n", data->cmd_name);
-	printf(".cmt %s\n", data->cmd_comment);
-	inst = data->instructions;
-	while (inst)
+	if (debug)
 	{
-		printf("%02d° inst:", i + 1);
-		printf("\t%s%c\t%s\t%s\t%s\t%s\n",
-			inst->label ? inst->label : "\t",
-			inst->label ? ':' : ' ',
-			inst->name ? inst->name : "\t",
-			inst->args[0] ? inst->args[0] : "\t",
-			inst->args[1] ? inst->args[1] : "\t",
-			inst->args[2] ? inst->args[2] : " ");
-		inst = inst->next;
-		i += 1;
+		i = 0;
+		printf(".filename %s\n", data->file_name);
+		printf(".name %s\n", data->cmd_name);
+		printf(".cmt %s\n", data->cmd_comment);
+		inst = data->instructions;
+		while (inst)
+		{
+			printf("%02d° inst:", i + 1);
+			printf("\t%s%c\t%s\t%s\t%s\t%s\n", inst->label ? inst->label : "\t",
+				inst->label ? ':' : ' ',
+				inst->name ? inst->name : "\t",
+				inst->args[0] ? inst->args[0] : "\t",
+				inst->args[1] ? inst->args[1] : "\t",
+				inst->args[2] ? inst->args[2] : " ");
+			inst = inst->next;
+			i += 1;
+		}
 	}
+	else
+		printf("Writing output program to %s\n", data->file_name);
 }
 
 int		last_arg(char *last)
@@ -172,6 +175,34 @@ int		manage_inst_name(char *line, t_inst *new)
 	return (ft_raise_exception(12, NULL));
 }
 
+int		valid_label(char *line, char *label, t_inst *inst)
+{
+	int index;
+
+	index = 0;
+	if (ft_ischarin(LABEL_CHARS, *(label - 1)))
+	{
+		inst->label = ft_strsub(line, 0, label - line);
+		while (inst->label[index])
+		{
+			if (!ft_ischarin(LABEL_CHARS, inst->label[index]))
+			{
+				ft_raise_exception(13, NULL);
+				return (-1);
+			}
+			index += 1;
+		}
+	}
+	else
+		return (0);
+	return (index);
+}
+
+/*
+**	this function check if there's a label separator, otherwise it returns 0
+**	else it checks if the label is valid or not;
+*/
+
 int		manage_label(char *line, t_inst *inst)
 {
 	int		index;
@@ -180,35 +211,15 @@ int		manage_label(char *line, t_inst *inst)
 	index = 0;
 	if ((label = ft_strchr(line, LABEL_CHAR)))
 	{
-		if (ft_ischarin(LABEL_CHARS, *(label - 1)))
-		{
-			inst->label = ft_strsub(line, 0, label - line);
-			while (inst->label[index])
-			{
-				if (!ft_ischarin(LABEL_CHARS, inst->label[index]))
-				{
-					ft_memdel((void**)&inst->label);
-					ft_raise_exception(13, NULL);
-				}
-				index += 1;
-			}
-		}
-		else
-		{
-			inst->label = NULL;
-			return (0);
-		}
+		if ((index = valid_label(line, label, inst)) < 1)
+			return (index);
 	}
 	else
-	{
-		inst->label = NULL;
 		return (0);
-	}
 	if (!inst->label)
 		return (0);
 	index += 1;
-	while (ft_ischarin(WHITESPACES, *(line + index)))
-		index += 1;
+	index += skip_wsp(line + index);
 	return (index);
 }
 
@@ -254,7 +265,8 @@ int		get_instructions(char *line, t_asm *data)
 	allocate_instruction(&new);
 	if (!*line)
 		return (1);
-	cursor = manage_label(line, new);
+	if ((cursor = manage_label(line, new)) == -1)
+		return (force_quit(NULL, NULL, new));
 	if (!*(line + cursor))
 		return (label_simple_line(line, cursor, data, new));
 	cursor += manage_inst_name(line + cursor, new);

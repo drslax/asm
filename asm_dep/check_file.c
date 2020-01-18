@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 06:30:14 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 22:24:53 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,10 @@ int		read_args(char *filename, t_asm *data)
 	{
 		if (!read_file(filedesc, data))
 		{
-			free_s_asm(data);
 			return (0);
 		}
 		return (1);
 	}
-	free_s_asm(data);
 	error = strerror(errno);
 	ft_raise_exception(17, error);
 	ft_memdel((void**)&error);
@@ -64,7 +62,7 @@ int		parse_args(char *filename, t_asm *data)
 	errno = 0;
 	if (check_extension(filename))
 		return (read_args(filename, data));
-	free_s_asm(data);
+// free_s_asm(data);
 	return (ft_raise_exception(0, filename));
 }
 

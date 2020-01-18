@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <anas.elouargui@gmail.com>        +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 04:39:02 by aelouarg          #+#    #+#             */
-/*   Updated: 2018/10/21 07:38:59 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/18 20:47:21 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int						get_next_line(int const fd, char **line)
 {
 	char			*tmp;
 	char			buff[BUFF_SIZE + 1];
-	static char		*tab[256];
+	static char		*tab[MAX_FD];
 	int				ret;
 
 	if (fd < 0 || BUFF_SIZE < 1 || !line || read(fd, buff, 0) < 0)
@@ -57,6 +57,9 @@ int						get_next_line(int const fd, char **line)
 	}
 	*line = ft_strsub(tab[fd], 0, ft_linelen(tab[fd]));
 	if (ft_line(tab[fd]) == NULL)
+	{
+		tab[fd] ? ft_memdel((void**)&tab[fd]) : 0;
 		return (0);
+	}
 	return (1);
 }
