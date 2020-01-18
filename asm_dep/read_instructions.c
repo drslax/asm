@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 04:45:59 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 04:58:52 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,10 @@ int		multiple_args(char *line, t_inst *new, char *separator)
 				index = skip_wsp(tmp);
 				arg_length = skip_not_wsp(tmp + index);
 				new->args[2] = ft_strsub(tmp + index, 0, arg_length);
-				if (!*(tmp + index + arg_length + skip_wsp(tmp + index + arg_length)))
+				if (arg_length && !*(tmp + index + arg_length + skip_wsp(tmp + index + arg_length)))
 					return (1);
 				else
-					return (ft_raise_exception(14, tmp + index + arg_length));
+					return (ft_raise_exception(14, tmp));
 			}
 			else if (!*(line + index + arg_length))
 				return (1);

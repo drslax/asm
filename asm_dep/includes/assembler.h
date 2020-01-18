@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/16 23:36:39 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 04:53:24 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ typedef struct	s_asm
 
 void	free_s_asm(t_asm *data);
 int		ft_raise_exception(int error_code, char *custom);
+
+void	initialize_asm(t_asm **data, char *arg);
+int		parse_args(char *filename, t_asm *data);
+
+
 int		read_file(int filedesc, t_asm *data);
 void	allocate_instruction(t_inst **instructions);
 int		get_instructions(char *line, t_asm *data);
