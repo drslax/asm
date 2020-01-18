@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 04:36:15 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 06:31:22 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ int		skip_not_wsp(char *line)
 	int	not_sp;
 
 	not_sp = 0;
-	while (line && *(line + not_sp) && !ft_ischarin(WHITESPACES, *(line + not_sp)))
+	while (line && *(line + not_sp) &&
+			!ft_ischarin(WHITESPACES, *(line + not_sp)))
 		not_sp += 1;
 	return (not_sp);
 }
 
-char		*check_double_quotes(char *cmd, int cmd_len)
+char	*check_double_quotes(char *cmd, int cmd_len)
 {
 	char	*start;
 	char	*content;
@@ -71,12 +72,6 @@ char		*check_double_quotes(char *cmd, int cmd_len)
 	return (NULL);
 }
 
-	
-void	error(char *str)
-{
-	ft_putendl(str);
-}
-
 int		store_name_cmd(t_asm *data, char *line)
 {
 	size_t	length;
@@ -86,35 +81,35 @@ int		store_name_cmd(t_asm *data, char *line)
 		return (ft_raise_exception(3, NULL));
 	if ((content = check_double_quotes(line, ft_strlen(NAME_CMD_STRING))))
 	{
-		if ((length = ft_strlen(content)) < PROG_NAME_LENGTH)
-			data->cmd_name = content;
+		if (!((length = ft_strlen(content)) < PROG_NAME_LENGTH))
+			return (ft_raise_exception(6, ft_itoa(PROG_NAME_LENGTH)));
 		else
-			ft_raise_exception(6, ft_itoa(PROG_NAME_LENGTH));
+		{
+			data->cmd_name = content;
+			return (1);
+		}
 	}
-	else
-		return (0);
-	
-	// else
-	// 	ft_raise_exception(17, NULL);
-	return (1);
+	return (0);
 }
 
 int		store_comment_cmd(t_asm *data, char *line)
 {
 	size_t	length;
 	char	*content;
+
 	if (data->cmd_comment)
 		return (ft_raise_exception(4, NULL));
 	if ((content = check_double_quotes(line, ft_strlen(COMMENT_CMD_STRING))))
 	{
-		if ((length = ft_strlen(content)) < COMMENT_LENGTH)
-			data->cmd_comment = content;
+		if (!((length = ft_strlen(content)) < COMMENT_LENGTH))
+			return (ft_raise_exception(6, ft_itoa(COMMENT_LENGTH)));
 		else
-			ft_raise_exception(6, ft_itoa(COMMENT_LENGTH));
+		{
+			data->cmd_comment = content;
+			return (1);
+		}
 	}
-	else
-		ft_raise_exception(17, NULL);
-	return (1);
+	return (0);
 }
 
 int		command_isname(char *line)
@@ -183,11 +178,10 @@ int		read_file(int filedesc, t_asm *data)
 			}
 			else
 			{
-				// printf("line = %s\n", line + skipped);
 				if (!get_instructions(line + skipped, data))
 				{
-					// free_s_asm(data);
-					// ft_memdel((void**)&line);
+// free_s_asm(data);
+// ft_memdel((void**)&line);
 					return (0);
 				}
 			}
@@ -197,7 +191,6 @@ int		read_file(int filedesc, t_asm *data)
 			break ;
 	}
 	print_data(data);
-
 	printf("eol");
 	return (1);
 }

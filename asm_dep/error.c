@@ -6,37 +6,37 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:43:44 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/16 23:56:29 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 06:30:46 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
 
-char    *g_error_strings[] =
+char	*g_error_strings[] =
 {
-	"Invalid extenstion :", //0
-	"Invalid filename :", //1
-	"Requires one or more files",//2
-	"Program_name' command already defined", //3
-	"Comment' command already defined",//4
-	"Command not well formated",//5
-	"Program_name' length above PROG_NAME_LENGTH",//6
-	"Comment' command length above COMMENT_LENGTH",//7
-	"Undefined command :",//8
-	"Program should start with commands",//9
-	"Missing command :",//10
-	"Missing argument",//11
-	"Invalid name instruction",//12
-	"Invalid chars in label",//13
-	"Invalid ENDLINE character",//14
-	"Syntax Error",//15
-	"",//16
+	"Invalid extenstion :",
+	"Invalid filename :",
+	"Requires one or more files",
+	"Program_name' command already defined",
+	"Comment' command already defined",
+	"Command not well formated",
+	"Program_name' length above PROG_NAME_LENGTH",
+	"Comment' command length above COMMENT_LENGTH",
+	"Undefined command :",
+	"Program should start with commands",
+	"Missing command :",
+	"Missing argument",
+	"Invalid name instruction",
+	"Invalid chars in label",
+	"Invalid ENDLINE character",
+	"Syntax Error",
+	"",
 	NULL
 };
 
-int ft_raise_exception(int error_code, char *custom)
+int		ft_raise_exception(int error_code, char *custom)
 {
-	char    *error_string;
+	char	*error_string;
 
 	error_string = g_error_strings[error_code];
 	ft_putstr_fd("\e[1m\e[91mERROR :\e[0m ", 2);

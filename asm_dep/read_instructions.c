@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 04:58:52 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/18 06:15:59 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,37 @@ void	add_instruction(t_asm **data, t_inst *new)
 {
 	t_inst	*current;
 
-	current =  (*data)->instructions;
-	// if (*data)
+	current = (*data)->instructions;
 	while (current->next)
 		current = current->next;
 	current->next = new;
-	// print_data(*	data);
 }
 
 void	print_data(t_asm *data)
 {
 	t_inst	*inst;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	printf("\n*************printing data***********\n");
+	printf(".filename %s\n", data->file_name);
 	printf(".name %s\n", data->cmd_name);
 	printf(".cmt %s\n", data->cmd_comment);
 	inst = data->instructions;
 	while (inst)
 	{
-		printf("%d° inst:\n", i + 1);
-		printf("\t%s [%s] [%s] [%s] [%s]\n", inst->label, inst->name,
-			inst->args[0], inst->args[1], inst->args[2]);
+		printf("%02d° inst:", i + 1);
+		printf("\t%s%c\t%s\t%s\t%s\t%s\n",
+			inst->label ? inst->label : "\t",
+			inst->label ? ':' : ' ',
+			inst->name ? inst->name : "\t",
+			inst->args[0] ? inst->args[0] : "\t",
+			inst->args[1] ? inst->args[1] : "\t",
+			inst->args[2] ? inst->args[2] : " ");
 		inst = inst->next;
 		i += 1;
 	}
 }
-
 
 int		last_arg(char *last)
 {
@@ -53,43 +57,6 @@ int		last_arg(char *last)
 		len += 1;
 	return (len);
 }
-
-// int	manage_arguments(char *line, t_inst *new)
-// {
-// 	char	*comma;
-// 	int		index;
-
-// 	index = 0;
-// 	if ((comma = ft_strchr(line, SEPARATOR_CHAR)))
-// 	{
-// 		new->args[0] = ft_strsub(line, 0, comma - line);
-// 		line = comma + 1;
-// 		if ((comma = ft_strchr(line, SEPARATOR_CHAR)))
-// 		{
-// 			while (ft_ischarin(WHITESPACES, *line))
-// 				line += 1;
-// 			new->args[1] = ft_strsub(line, 0, comma - line);
-// 			if (comma && comma + 1)
-// 			{
-// 				while (ft_ischarin(WHITESPACES, *comma))
-// 					comma += 1;
-// 				new->args[2] = ft_strsub(comma + 1, 0, last_arg(comma + 1));
-// 			}
-// 		}
-// 		else if (!comma && line)
-// 		{
-// 			while (line && ft_ischarin(WHITESPACES, *(line)))
-// 				line += 1;
-// 			if (!line)
-//                 ft_raise_exception(11, NULL);
-// 			new->args[1] = ft_strsub(line, 0, last_arg(line));
-// 		}
-// 	}
-// 	else
-// 		new->args[0] = ft_strsub(line, 0, last_arg(line));
-// 	return (1);
-// }
-
 
 int		single_or_less_argument(char *line, t_inst *new)
 {
@@ -107,24 +74,43 @@ int		single_or_less_argument(char *line, t_inst *new)
 
 int		store_arg_and_skip(char *line, char *separator, t_inst *new, int index)
 {
-	int	arg_length;
+	int		arg_length;
 	char	*tmp;
 
-	tmp = ft_strsub(line, 0, separator - line);
+	tmp = separator ? ft_strsub(line, 0, separator - line) : line;
 	arg_length = skip_not_wsp(tmp);
 	new->args[index] = ft_strsub(line, 0, arg_length);
-	ft_memdel((void**)&tmp);
+	separator ? ft_memdel((void**)&tmp) : 0;
 	arg_length += skip_wsp(line + arg_length);
 	return (arg_length);
 }
 
+int		check_3rd_arg(char *line, int index, int arg_length, t_inst *new)
+{
+	line = line + index + arg_length;
+	if (*line == SEPARATOR_CHAR)
+	{
+		line += 1;
+		index = skip_wsp(line);
+		arg_length = skip_not_wsp(line + index);
+		new->args[2] = ft_strsub(line + index, 0, arg_length);
+		if (arg_length &&
+			!*(line + index + arg_length + skip_wsp(line + index + arg_length)))
+			return (1);
+		else
+			return (ft_raise_exception(14, line));
+	}
+	else if (!*line)
+		return (1);
+	return (2);
+}
+
 int		multiple_args(char *line, t_inst *new, char *separator)
 {
-	int	arg_length;
-	int	index;
-	char	*tmp;
+	int		arg_length;
+	int		res;
+	int		index;
 
-	arg_length = 0;
 	arg_length = store_arg_and_skip(line, separator, new, 0);
 	if (line + arg_length == separator)
 	{
@@ -133,38 +119,19 @@ int		multiple_args(char *line, t_inst *new, char *separator)
 		if ((separator = ft_strchr(line + index, SEPARATOR_CHAR)))
 		{
 			arg_length = store_arg_and_skip(line + index, separator, new, 1);
-			tmp = line + index + arg_length;
-			if (*(line + index + arg_length) == SEPARATOR_CHAR)
-			{
-				tmp += 1;
-				index = skip_wsp(tmp);
-				arg_length = skip_not_wsp(tmp + index);
-				new->args[2] = ft_strsub(tmp + index, 0, arg_length);
-				if (arg_length && !*(tmp + index + arg_length + skip_wsp(tmp + index + arg_length)))
-					return (1);
-				else
-					return (ft_raise_exception(14, tmp));
-			}
-			else if (!*(line + index + arg_length))
-				return (1);
-			else
-				return(ft_raise_exception(14, line + index + arg_length));
+			if ((res = check_3rd_arg(line, index, arg_length, new)) < 2)
+				return (res);
+			return (1);
 		}
 		else
 		{
-			arg_length = skip_not_wsp(line + index);
-			new->args[1] = ft_strsub(line + index, 0, arg_length);
-			index += skip_wsp(line + index + arg_length);
+			arg_length = store_arg_and_skip(line + index, separator, new, 1);
 			if (!*(line + index + arg_length))
 				return (1);
-			else
-				return(ft_raise_exception(14, line + index + arg_length));
+			return (ft_raise_exception(14, line + index + arg_length));
 		}
-
 	}
-	else
-		return (ft_raise_exception(15, line));
-	return (1);
+	return (ft_raise_exception(15, line));
 }
 
 int		manage_arguments(char *line, t_inst *new)
@@ -176,13 +143,14 @@ int		manage_arguments(char *line, t_inst *new)
 	{
 		if (!(multiple_args(line, new, separator)))
 			return (0);
-	}	
+	}
 	else
+	{
 		if (!(single_or_less_argument(line, new)))
 			return (0);
+	}
 	return (1);
 }
-
 
 int		manage_inst_name(char *line, t_inst *new)
 {
@@ -204,12 +172,12 @@ int		manage_inst_name(char *line, t_inst *new)
 	return (ft_raise_exception(12, NULL));
 }
 
-int 	manage_label(char *line, t_inst *inst)
+int		manage_label(char *line, t_inst *inst)
 {
 	int		index;
 	char	*label;
 
-    index = 0;
+	index = 0;
 	if ((label = ft_strchr(line, LABEL_CHAR)))
 	{
 		if (ft_ischarin(LABEL_CHARS, *(label - 1)))
@@ -238,10 +206,10 @@ int 	manage_label(char *line, t_inst *inst)
 	}
 	if (!inst->label)
 		return (0);
-    index += 1;
-    while (ft_ischarin(WHITESPACES, *(line + index)))
-        index += 1;
-    return (index);
+	index += 1;
+	while (ft_ischarin(WHITESPACES, *(line + index)))
+		index += 1;
+	return (index);
 }
 
 int		emptylines(char *line)
@@ -253,40 +221,49 @@ int		emptylines(char *line)
 	return (0);
 }
 
-int    get_instructions(char *line, t_asm *data)
-{
-	int		spaces;
-    t_inst  *new;
+/*
+**	label_simple_line :
+**	(!simple_line)	A) if a line contains label + inst, spaces will be != 0
+**		=>			B) if a line contains only a label, spaces will be != 0
+**		=>			C) if the line contain a word != label ===> spaces == 0
+**	examples :	A)	labelname: live %1	|	spaces = 11 !*(line + spaces) = 'l'
+**				B)	labelbame:\t \t		|	spaces = 13 !*(line + spaces) = '\0'
+**				C)	notalabel			|	spaces = 0	!*(line + spaces) = '\0'
+*/
 
-    allocate_instruction(&new);
-    if (!line)
-        return (ft_raise_exception(17, NULL));
+int		label_simple_line(char *line, int cursor, t_asm *data, t_inst *new)
+{
+	if (cursor)
+	{
+		add_instruction(&data, new);
+		return (1);
+	}
+	return (ft_raise_exception(12, line));
+}
+
+/*
+**	if (!cursor)			== there are no instructions.
+**	if (!*(line + cursor))	== valid instructions with invalid endofline.
+*/
+
+int		get_instructions(char *line, t_asm *data)
+{
+	int		cursor;
+	t_inst	*new;
+
+	allocate_instruction(&new);
 	if (!*line)
 		return (1);
-    spaces = manage_label(line, new); // later will be new, add before return;
-	// printf("line + label + spaces = [%s]\n", line + spaces);
-    if (!*(line + spaces) && spaces)
-    {
-	    add_instruction(&data, new);
-	    return (1);
-	}
-	else if (!*(line + spaces) && !spaces)
-		return (ft_raise_exception(12, line));
-    spaces += manage_inst_name(line + spaces, new);
-	// printf("line + label + spaces + inst + spaces= [%s]\n", line + spaces);
-	if (!spaces)
+	cursor = manage_label(line, new);
+	if (!*(line + cursor))
+		return (label_simple_line(line, cursor, data, new));
+	cursor += manage_inst_name(line + cursor, new);
+	if (!cursor)
 		return (0);
-    // free before return (0);
-    if (!*(line + spaces))
-        return (ft_raise_exception(14, NULL));
-	// printf("line + label + spaces + inst + spaces + args= [%s]\n", line + spaces);
-    if (!(manage_arguments(line + spaces, new)))
+	if (!*(line + cursor))
+		return (ft_raise_exception(14, NULL));
+	if (!(manage_arguments(line + cursor, new)))
 		return (0);
-    // if (line + spaces && *(line + spaces))
-    //     return (ft_raise_exception(14, line + spaces));
-	// printf("good\n");
-    add_instruction(&data, new);
-    // printf("[%s]\n", line + spaces);
-    // (void)data;
-    return (1);
+	add_instruction(&data, new);
+	return (1);
 }
