@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 22:17:09 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/19 21:02:35 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	allocate_instruction(t_inst **instructions)
 {
 	*instructions = (t_inst*)malloc(sizeof(t_inst));
 	(*instructions)->label = NULL;
+	(*instructions)->id = 16;
 	(*instructions)->name = NULL;
 	(*instructions)->args[0] = NULL;
 	(*instructions)->args[1] = NULL;

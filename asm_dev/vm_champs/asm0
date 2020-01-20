@@ -1,0 +1,24 @@
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/42.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/42.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Backward.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Car.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/Car.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Death.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Gagnant.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/Gagnant.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Octobre_Rouge_V4.2.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/Octobre_Rouge_V4.2.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Survivor.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/Survivor.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/Torpille.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/barriere.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/barriere.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/ex.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/ex.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/jumper.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/jumper.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/lde.s : Syntax error at token [TOKEN][002:002] INSTRUCTION "ld"
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/leeloo.s : Lexical error at [31:23]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/mat.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/mat.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/maxidef.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/maxidef.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/mortel.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/mortel.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/new.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/sebc.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/slider2.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/slider2.cor
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/tdc2.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/tdc3.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/tdc4.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/test.s : Lexical error at [3:1]
+/Users/slyazid/Desktop/asm_dev/asm_dev/champs/toto.s : Writing output program to /Users/slyazid/Desktop/asm_dev/asm_dev/champs/toto.cor

@@ -3,7 +3,9 @@
 .name "Jumper !"
 .comment "en fait C forker !"
 
-gobepc:	st r1,:buff
+				
+ 
+gobepc:	st r1,:buff			
 	st r6,-4
 	ld :buff,r1
 debut:	ld %0,r7
@@ -53,7 +55,7 @@ livex:	live %66
 boucle:	live %66
 	fork %:goboucle0
 	live %66
-	fork %:boucle
+	fork %:boucle	
 	live %66
 	fork %:goboucle1
 	live %66

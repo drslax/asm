@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 22:16:07 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/19 20:55:21 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int		manage_inst_name(char *line, t_inst *new)
 		if ((name = ft_strstr(line, g_op_tab[index].name)) && !(name - line))
 		{
 			new->name = ft_strdup(g_op_tab[index].name);
+			new->id = index;
 			args = ft_strlen(new->name) + skip_wsp(line + ft_strlen(new->name));
 		}
 	}

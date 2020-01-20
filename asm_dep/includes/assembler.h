@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/18 21:48:56 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/19 20:55:16 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ extern char	*g_error_strings[];
 typedef struct	s_instructions
 {
 	char					*label;
+	int						id;
 	char					*name;
 	char					*args[3];
 	struct s_instructions	*next;
