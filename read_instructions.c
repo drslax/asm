@@ -22,6 +22,41 @@ void	add_instruction(t_asm **data, t_inst *new)
 	current->next = new;
 }
 
+void print_data(t_asm *data, int debug)
+{
+	t_inst *inst;
+	int i;
+
+	if (debug)
+	{
+		i = 0;
+		printf(".filename %s\n", data->file_name);
+		printf(".name %s\n", data->cmd_name);
+		printf(".cmt %s\n", data->cmd_comment);
+		printf("remaining labels %d\n", data->remain_labels);
+		inst = data->instructions;
+		printf("MAGIC DZAB :%s\n", ft_itoa(COREWAR_EXEC_MAGIC));
+		while (inst)
+		{
+			printf("%02d° inst\t%d:", i + 1, inst->size);
+			printf("\t%s%c\t%s\t%s[%d]\t%s[%d]\t%s[%d]\n", inst->label ? inst->label : "\t",
+				   inst->label ? ':' : ' ',
+				   inst->name ? inst->name : "\t",
+				   inst->args[0]->name ? inst->args[0]->name : "\t",
+				   inst->args[0]->type != 16 ? type_size(inst->args[0]->type, inst->id) : -1,
+				   inst->args[1]->name ? inst->args[1]->name : "\t",
+				   inst->args[1]->type != 16 ? type_size(inst->args[1]->type, inst->id) : -1,
+				   inst->args[2]->name ? inst->args[2]->name : " ",
+				   inst->args[2]->type != 16 ? type_size(inst->args[2]->type, inst->id) : -1);
+			inst = inst->next;
+			i += 1;
+		}
+	}
+	else
+		printf("Writing output program to %s\n", data->file_name);
+}
+
+/*
 void	print_data(t_asm *data, int debug)
 {
 	t_inst	*inst;
@@ -55,7 +90,7 @@ void	print_data(t_asm *data, int debug)
 	else
 		printf("Writing output program to %s\n", data->file_name);
 }
-
+*/
 int		last_arg(char *last)
 {
 	int	len;

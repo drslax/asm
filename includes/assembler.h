@@ -14,7 +14,6 @@
 # define ASSEMBLER_H
 # include "op.h"
 # include "../libft/libft.h"
-# include "../lib2/libft.h"
 # include <errno.h>
 # include <stdio.h>
 # define MAX_INST 10009
@@ -78,6 +77,7 @@ int     str_type_arg(char *arg);
 int		update_size_instruction(t_inst *inst);
 
 
+int type_size(int type, int id);
 int		write_file(t_asm *data);
 
 #endif

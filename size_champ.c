@@ -16,11 +16,11 @@
 int		type_size(int type, int id)
 {
 	if (type == T_REG)
-		return (REG_SIZE);
+		return (1);
 	if (type == T_IND)
 		return (IND_SIZE);
 	if (type == T_DIR)
-		return (DIR_SIZE - (g_op_tab[id].label_size ? 2 : 4));
+		return (DIR_SIZE - (g_op_tab[id].label_size ? 2 : 0));
 	return (-1);
 }
 
@@ -50,7 +50,6 @@ int		update_size_instruction(t_inst *inst)
 			}
 			index += 1;
 		}
-		inst->size += 1;
 	}
 	return (0);
 }
