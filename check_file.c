@@ -76,7 +76,7 @@ void	initialize_asm(t_asm **data, char *arg)
 	(*data)->size_champ = 0;
 	(*data)->remain_labels = 0;
 	(*data)->instructions = NULL;
-	(*data)->labels = NULL;
+	allocate_label(&(*data)->label);
 	allocate_instruction(&(*data)->instructions);
 	allocate_instruction(&(*data)->labels);
 }

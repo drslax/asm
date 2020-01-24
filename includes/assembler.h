@@ -38,7 +38,12 @@ typedef struct	s_instructions
 	struct s_instructions	*next;
 }				t_inst;
 
-typedef struct s_instructions t_label;
+typedef struct s_label
+{
+	int		id;
+	char	*name;
+	t_inst	*addr;
+}				t_label;
 
 typedef struct	s_asm
 {

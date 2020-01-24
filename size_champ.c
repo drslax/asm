@@ -50,6 +50,7 @@ int		update_size_instruction(t_inst *inst)
 			}
 			index += 1;
 		}
+		inst->size += (g_op_tab[inst->id].octet_codage ? 1 : 0);
 	}
 	return (0);
 }

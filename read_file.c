@@ -151,6 +151,14 @@ int		get_command(char *line, t_asm *data)
 	return (0);
 }
 
+void	allocate_label(t_label **label)
+{
+		*label = (t_label*)malloc(sizeof(t_label));
+		(*label)->id = -1;
+		(*label)->name = NULL;
+		(*label)->addr = NULL;
+}
+
 void	allocate_argument(t_arg *argument[3])
 {
 	argument[0] = (t_arg*)malloc(sizeof(t_arg));

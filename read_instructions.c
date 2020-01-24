@@ -12,6 +12,13 @@
 
 #include "assembler.h"
 
+void	store_label(t_asm *data)
+{
+	t_labels	*labels;
+
+	labels = 
+}
+
 void	add_instruction(t_asm **data, t_inst *new)
 {
 	t_inst	*current;
@@ -20,6 +27,8 @@ void	add_instruction(t_asm **data, t_inst *new)
 	while (current->next)
 		current = current->next;
 	current->next = new;
+	if (new->label)
+		store_label(*data);
 }
 
 void print_data(t_asm *data, int debug)
@@ -328,6 +337,7 @@ int		get_instructions(char *line, t_asm *data)
 	if (update_size_instruction(new))
 		data->remain_labels = 1;
 	add_instruction(&data, new);
+	data->size_champ += new->size;
 	return (1);
 }
 

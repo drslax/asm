@@ -70,6 +70,11 @@ int	create_file(t_asm *data)
 	return (filedesc);
 }
 
+void write_champ_exec_code(int fildesc, t_asm *data)
+{
+	ft_write_int(fildesc, data->size_champ);
+}
+
 int	write_file(t_asm *data)
 {
 	int		filedesc;
@@ -78,7 +83,7 @@ int	write_file(t_asm *data)
 		return (0);
 	write_exec_magic(filedesc);
 	write_command_name(filedesc, data);
-	// write_champ_exec_code(filedesc, data);
+	write_champ_exec_code(filedesc, data);
 	write_command_comment(filedesc, data);
 	return (1);
 }
