@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <aelouarg@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/23 06:52:01 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:04:14 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	initialize_asm(t_asm **data, char *arg)
 	(*data)->size_champ = 0;
 	(*data)->remain_labels = 0;
 	(*data)->instructions = NULL;
-	allocate_label(&(*data)->label);
+	allocate_label(&(*data)->labels);
 	allocate_instruction(&(*data)->instructions);
-	allocate_instruction(&(*data)->labels);
 }

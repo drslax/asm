@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <aelouarg@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/23 06:52:44 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:03:57 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,17 +193,17 @@ int		force_quit(char *line, t_asm *data, t_inst *inst)
 	return (0);
 }
 
-void	print_labels(t_label *lab)
-{
-	int i = 0;
+// void	print_labels(t_label *lab)
+// {
+// 	int i = 0;
 
-	while (lab)
-	{
-		printf("lab %d = %s\n", i, lab->name);
-		lab = lab->next;
-		i += 1;
-	}
-}
+// 	while (lab)
+// 	{
+// 		printf("lab %d = %s\n", i, lab->name);
+// 		lab = lab->next;
+// 		i += 1;
+// 	}
+// }
 
 /*
 ** force quit in return (0)

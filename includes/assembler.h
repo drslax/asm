@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assembler.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <aelouarg@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/23 06:53:59 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:04:56 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct	s_instructions
 	int						size;
 	int						size_set;
 	t_arg					*args[3];
+	struct s_instructions	*tail;
 	struct s_instructions	*next;
 }				t_inst;
 
@@ -82,7 +83,8 @@ int     str_type_arg(char *arg);
 int		update_size_instruction(t_inst *inst);
 
 
-int type_size(int type, int id);
+int 	type_size(int type, int id);
 int		write_file(t_asm *data);
+void	allocate_label(t_label **label);
 
 #endif

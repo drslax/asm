@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_instructions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <aelouarg@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/23 06:53:03 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:04:39 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
-
-void	store_label(t_asm *data)
-{
-	t_labels	*labels;
-
-	labels = 
-}
 
 void	add_instruction(t_asm **data, t_inst *new)
 {
@@ -27,8 +20,8 @@ void	add_instruction(t_asm **data, t_inst *new)
 	while (current->next)
 		current = current->next;
 	current->next = new;
-	if (new->label)
-		store_label(*data);
+	// if (new->label)
+	// 	store_label(*data);
 }
 
 void print_data(t_asm *data, int debug)
