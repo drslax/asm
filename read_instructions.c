@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_instructions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 18:18:13 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 21:36:09 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	print_labels(t_label *labels)
 
 	if (labels)
 	{
-	while (i < labels->id)
-	{
-		printf("label %s (%p)\n", labels[i].name, labels[i].addr);
-		printf("\t%s\n", labels[i].addr->name ? labels[i].addr->name : labels[i].addr->next->name);
-		i += 1;
-	} 
+		while (i < labels->id)
+		{
+			printf("label %s (%p)\n", labels[i].name, labels[i].addr);
+			printf("\t%s\n", labels[i].addr->name ? labels[i].addr->name : labels[i].addr->next->name);
+			i += 1;
+		}
 	}
 }
 
@@ -84,7 +84,7 @@ void print_data(t_asm *data, int debug)
 		printf("MAGIC DZAB :%s\n", ft_itoa(COREWAR_EXEC_MAGIC));
 		while (inst)
 		{
-			printf("%03d° inst\t%d:", i + 1, inst->size);
+			printf("%03d° inst\t%d:", inst->line, inst->size);
 			printf("\t%s%c\t%s\t%s[%d]\t%s[%d]\t%s[%d]\n", inst->label ? inst->label : "\t",
 				   inst->label ? ':' : ' ',
 				   inst->name ? inst->name : "\t",
@@ -351,11 +351,13 @@ int		label_simple_line(char *line, int cursor, t_asm *data, t_inst *new)
 
 int		get_instructions(char *line, t_asm *data)
 {
-	int		cursor;
-	t_inst	*new;
+	int			cursor;
+	t_inst		*new;
+	static int	num;
 
 	allocate_instruction(&new);
 	initialize_instruction(&new);
+	new->line = num++;
 	if (!*line)
 		return (1);
 	if ((cursor = manage_label(line, new)) == -1)

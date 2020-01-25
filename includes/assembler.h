@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assembler.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 18:03:14 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 21:12:16 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct	s_arguments
 
 typedef struct	s_instructions
 {
+	int						line;
 	char					*label;
 	int						id;
 	char					*name;

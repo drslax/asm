@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   allocations.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:13:08 by sou3ada           #+#    #+#             */
-/*   Updated: 2020/01/25 17:54:41 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 21:31:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	allocate_argument(t_arg *argument[3])
 
 void    initialize_instruction(t_inst **instructions)
 {
+	(*instructions)->line = -1;
     (*instructions)->label = NULL;
 	(*instructions)->id = 16;
 	(*instructions)->name = NULL;

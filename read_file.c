@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 18:12:19 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 21:37:02 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,9 @@ int		read_file(int filedesc, t_asm *data)
 	}
 	//print_labels(data->labels);
 	// if (data->remain_labels)
-	// 	fix_label_size(data->instructions);
+	// fix_label_size(data->labels);
 	printf("\e[1m\e[42m√\e[0m:\n");
-	print_data(data, 1);
 	print_labels(data->labels);
+	print_data(data, 1);
 	return (1);
 }
