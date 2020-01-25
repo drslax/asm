@@ -6,7 +6,7 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 16:56:55 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 18:03:14 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ void    initialize_instruction(t_inst **instructions);
 int 	type_size(int type, int id);
 int		write_file(t_asm *data);
 void	allocate_label(t_label **label);
+
+void	print_labels(t_label *labels);
 
 #endif

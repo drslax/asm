@@ -6,7 +6,7 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 16:28:06 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 18:12:19 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,13 @@ int		get_command(char *line, t_asm *data)
 	return (0);
 }
 
-void	allocate_label(t_label **label)
-{
-		*label = (t_label*)malloc(sizeof(t_label));
-		(*label)->id = -1;
-		(*label)->name = NULL;
-		(*label)->addr = NULL;
-}
+// void	allocate_label(t_label **label)
+// {
+// 		*label = (t_label*)malloc(sizeof(t_label));
+// 		(*label)->id = -1;
+// 		(*label)->name = NULL;
+// 		(*label)->addr = NULL;
+// }
 
 int		force_quit(char *line, t_asm *data, t_inst *inst)
 {
@@ -182,5 +182,6 @@ int		read_file(int filedesc, t_asm *data)
 	// 	fix_label_size(data->instructions);
 	printf("\e[1m\e[42m√\e[0m:\n");
 	print_data(data, 1);
+	print_labels(data->labels);
 	return (1);
 }

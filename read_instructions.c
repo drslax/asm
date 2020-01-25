@@ -6,13 +6,49 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 17:47:14 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 18:18:13 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
 
-void	add_instruction(t_inst **list, t_inst *new)
+void	print_labels(t_label *labels)
+{
+	int i = 0;
+
+	if (labels)
+	{
+	while (i < labels->id)
+	{
+		printf("label %s (%p)\n", labels[i].name, labels[i].addr);
+		printf("\t%s\n", labels[i].addr->name ? labels[i].addr->name : labels[i].addr->next->name);
+		i += 1;
+	} 
+	}
+}
+
+void	store_label(t_label **labels, t_inst *list)
+{
+	int	id;
+
+	if (!*labels)
+	{
+		allocate_label(labels);
+		(*labels)->id = 1;
+		(*labels)[0].name = list->tail->label;
+		(*labels)[0].addr = list->tail;
+	}
+	else
+	{
+		id = (*labels)->id;
+		(*labels)->id += 1;
+		(*labels) = (t_label *)realloc(*labels, (*labels)->id * sizeof(t_label));
+		(*labels)[id].name = list->tail->label;
+		(*labels)[id].addr = list->tail;
+	}
+}
+
+void	add_instruction(t_inst **list, t_inst *new, t_label **labels)
 {
 	if (!*list)
 	{
@@ -26,8 +62,8 @@ void	add_instruction(t_inst **list, t_inst *new)
 		(*list)->tail = (*list)->tail->next;
 		(*list)->tail->next = NULL;
 	}
-	// if (new->label)
-	// 	store_label(&data->labels, *list);
+	if (new->label)
+		store_label(labels, *list);
 	// if (new->label)
 	// 	store_label(*data);
 }
@@ -48,7 +84,7 @@ void print_data(t_asm *data, int debug)
 		printf("MAGIC DZAB :%s\n", ft_itoa(COREWAR_EXEC_MAGIC));
 		while (inst)
 		{
-			printf("%02d° inst\t%d:", i + 1, inst->size);
+			printf("%03d° inst\t%d:", i + 1, inst->size);
 			printf("\t%s%c\t%s\t%s[%d]\t%s[%d]\t%s[%d]\n", inst->label ? inst->label : "\t",
 				   inst->label ? ':' : ' ',
 				   inst->name ? inst->name : "\t",
@@ -302,7 +338,7 @@ int		label_simple_line(char *line, int cursor, t_asm *data, t_inst *new)
 {
 	if (cursor)
 	{
-		add_instruction(&data->instructions, new);
+		add_instruction(&data->instructions, new, &data->labels);
 		return (1);
 	}
 	return (ft_raise_exception(12, line));
@@ -337,7 +373,7 @@ int		get_instructions(char *line, t_asm *data)
 		return (0);
 	if (update_size_instruction(new))
 		data->remain_labels = 1;
-	add_instruction(&data->instructions, new);
+	add_instruction(&data->instructions, new, &data->labels);
 	data->size_champ += new->size;
 	return (1);
 }

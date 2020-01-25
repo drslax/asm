@@ -6,7 +6,7 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:13:08 by sou3ada           #+#    #+#             */
-/*   Updated: 2020/01/25 17:24:58 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 17:54:41 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 void    allocate_asm(t_asm **data)
 {
     if (!(*data = (t_asm *)malloc(sizeof(t_asm))))
+		exit(-1);
+}
+
+void    allocate_label(t_label **label)
+{
+    if (!(*label = (t_label *)malloc(sizeof(t_label))))
 		exit(-1);
 }
 
