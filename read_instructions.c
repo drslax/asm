@@ -6,13 +6,13 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 17:28:31 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 17:47:14 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
 
-void	add_instruction(t_inst **list, t_inst *new, t_asm *data)
+void	add_instruction(t_inst **list, t_inst *new)
 {
 	if (!*list)
 	{
