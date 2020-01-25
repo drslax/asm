@@ -6,7 +6,7 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 16:04:56 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:56:55 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ int     check_valid_args(t_inst *inst);
 int     str_type_arg(char *arg);
 
 int		update_size_instruction(t_inst *inst);
+
+void    allocate_asm(t_asm **data);
+void    initialize_instruction(t_inst **instructions);
 
 
 int 	type_size(int type, int id);

@@ -6,20 +6,28 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 16:04:39 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 17:28:31 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
 
-void	add_instruction(t_asm **data, t_inst *new)
+void	add_instruction(t_inst **list, t_inst *new, t_asm *data)
 {
-	t_inst	*current;
-
-	current = (*data)->instructions;
-	while (current->next)
-		current = current->next;
-	current->next = new;
+	if (!*list)
+	{
+		(*list) = new;
+		(*list)->tail = (*list);
+		(*list)->tail->next = NULL;
+	}
+	else
+	{
+		(*list)->tail->next = new;
+		(*list)->tail = (*list)->tail->next;
+		(*list)->tail->next = NULL;
+	}
+	// if (new->label)
+	// 	store_label(&data->labels, *list);
 	// if (new->label)
 	// 	store_label(*data);
 }
@@ -294,8 +302,7 @@ int		label_simple_line(char *line, int cursor, t_asm *data, t_inst *new)
 {
 	if (cursor)
 	{
-		add_instruction(&data, new);
-		// store_labels();
+		add_instruction(&data->instructions, new);
 		return (1);
 	}
 	return (ft_raise_exception(12, line));
@@ -312,6 +319,7 @@ int		get_instructions(char *line, t_asm *data)
 	t_inst	*new;
 
 	allocate_instruction(&new);
+	initialize_instruction(&new);
 	if (!*line)
 		return (1);
 	if ((cursor = manage_label(line, new)) == -1)
@@ -329,7 +337,7 @@ int		get_instructions(char *line, t_asm *data)
 		return (0);
 	if (update_size_instruction(new))
 		data->remain_labels = 1;
-	add_instruction(&data, new);
+	add_instruction(&data->instructions, new);
 	data->size_champ += new->size;
 	return (1);
 }

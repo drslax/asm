@@ -6,47 +6,11 @@
 /*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 16:03:57 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:28:06 by sou3ada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
-
-int		skip_wsp(char *line)
-{
-	int	sp;
-
-	sp = 0;
-	while (line && ft_ischarin(WHITESPACES, *(line + sp)))
-		sp += 1;
-	return (sp);
-}
-
-int		ignore_wsp(char *line)
-{
-	int		sp;
-	int		len;
-
-	sp = 0;
-	len = ft_strlen(line);
-	while (len >= 0 && ft_ischarin(WHITESPACES, *(line + len - 1)))
-	{
-		sp += 1;
-		len -= 1;
-	}
-	return (sp);
-}
-
-int		skip_not_wsp(char *line)
-{
-	int	not_sp;
-
-	not_sp = 0;
-	while (line && *(line + not_sp) &&
-			!ft_ischarin(WHITESPACES, *(line + not_sp)))
-		not_sp += 1;
-	return (not_sp);
-}
 
 char	*check_double_quotes(char *cmd, int cmd_len)
 {
@@ -157,31 +121,6 @@ void	allocate_label(t_label **label)
 		(*label)->id = -1;
 		(*label)->name = NULL;
 		(*label)->addr = NULL;
-}
-
-void	allocate_argument(t_arg *argument[3])
-{
-	argument[0] = (t_arg*)malloc(sizeof(t_arg));
-	argument[1] = (t_arg*)malloc(sizeof(t_arg));
-	argument[2] = (t_arg*)malloc(sizeof(t_arg));
-	argument[0]->name = NULL;
-	argument[0]->type = 16;
-	argument[1]->name = NULL;
-	argument[1]->type = 16;
-	argument[2]->name = NULL;
-	argument[2]->type = 16;
-}
-
-void	allocate_instruction(t_inst **instructions)
-{
-	*instructions = (t_inst*)malloc(sizeof(t_inst));
-	(*instructions)->label = NULL;
-	(*instructions)->id = 16;
-	(*instructions)->name = NULL;
-	(*instructions)->size = 0;
-	(*instructions)->size_set = 0;
-	allocate_argument((*instructions)->args);
-	(*instructions)->next = NULL;
 }
 
 int		force_quit(char *line, t_asm *data, t_inst *inst)
