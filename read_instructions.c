@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 21:36:09 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/25 22:08:21 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_labels(t_label *labels)
 	{
 		while (i < labels->id)
 		{
-			printf("label %s (%p)\n", labels[i].name, labels[i].addr);
+			printf("%d label %s (%p)\n", labels[i].addr->line, labels[i].addr->name, labels[i].addr);
 			printf("\t%s\n", labels[i].addr->name ? labels[i].addr->name : labels[i].addr->next->name);
 			i += 1;
 		}
@@ -35,7 +35,6 @@ void	store_label(t_label **labels, t_inst *list)
 	{
 		allocate_label(labels);
 		(*labels)->id = 1;
-		(*labels)[0].name = list->tail->label;
 		(*labels)[0].addr = list->tail;
 	}
 	else
@@ -43,7 +42,6 @@ void	store_label(t_label **labels, t_inst *list)
 		id = (*labels)->id;
 		(*labels)->id += 1;
 		(*labels) = (t_label *)realloc(*labels, (*labels)->id * sizeof(t_label));
-		(*labels)[id].name = list->tail->label;
 		(*labels)[id].addr = list->tail;
 	}
 }
@@ -364,8 +362,6 @@ int		get_instructions(char *line, t_asm *data)
 		return (force_quit(NULL, NULL, new));
 	if (!*(line + cursor))
 		return (label_simple_line(line, cursor, data, new));
-	// if (new->label)
-	// 	store_labels();
 	cursor += manage_inst_name(line + cursor, new);
 	if (!cursor)
 		return (0);

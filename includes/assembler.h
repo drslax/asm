@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 21:12:16 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/26 01:02:45 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct	s_instructions
 	int						id;
 	char					*name;
 	int						size;
-	int						size_set;
+	int						label_in_arg;
 	t_arg					*args[3];
 	struct s_instructions	*tail;
 	struct s_instructions	*next;
@@ -43,7 +43,6 @@ typedef struct	s_instructions
 typedef struct s_label
 {
 	int		id;
-	char	*name;
 	t_inst	*addr;
 }				t_label;
 
@@ -92,5 +91,6 @@ int		write_file(t_asm *data);
 void	allocate_label(t_label **label);
 
 void	print_labels(t_label *labels);
+void	fix_label_size(t_inst *inst, t_asm *data);
 
 #endif

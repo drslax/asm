@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <aelouarg@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 22:56:38 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/23 04:45:14 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/26 00:56:28 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ int 	ft_isint(char *str)
 {
 	int	i;
 
-	i = -1;
+	if (str[0] == '-')
+		i = 0;
+	else
+		i = -1;
 	while (str[++i])
 		if (!ft_isdigit(str[i]))
 			return (0);
@@ -74,7 +77,7 @@ int     check_valid_args(t_inst *inst)
 		while (index < max_arg)
 		{
 			if (!(str_type_arg(inst->args[index]->name) & g_op_tab[inst->id].args_type[index]))
-				return (ft_raise_exception(17, NULL));
+				return (ft_raise_exception(17, inst->args[index]->name));
 			if (!is_valid_reg(inst->args[index]))
 				return (0);
 			index += 1;
