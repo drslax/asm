@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   check_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sou3ada <sou3ada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 17:05:32 by sou3ada          ###   ########.fr       */
+/*   Updated: 2020/01/27 04:47:09 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
+
+char	*grab_filename(char *path)
+{
+	char	*back_slash;
+
+	if (!(back_slash = ft_strrchr(path, '/')))
+		return (path);
+	return (path + (back_slash - path) + 1);
+}
 
 int		check_extension(char *filename)
 {
@@ -43,7 +52,7 @@ int		read_args(char *filename, t_asm *data)
 	char	*error;
 
 	filedesc = open_file(filename);
-	initialize_asm(&data, filename);
+	initialize_asm(&data, grab_filename(filename));
 	if (!errno)
 	{
 		if (!read_file(filedesc, data))

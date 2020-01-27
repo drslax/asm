@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/26 00:38:27 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/27 01:04:17 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int		read_file(int filedesc, t_asm *data)
 	// 	fix_label_size(data->instructions, data);
 	printf("\e[1m\e[42m√\e[0m:\n");
 	// print_labels(data->labels);
+	get_label_value(data->instructions, data);
 	print_data(data, 1);
 	return (1);
 }

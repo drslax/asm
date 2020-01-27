@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:13:08 by sou3ada           #+#    #+#             */
-/*   Updated: 2020/01/26 01:02:52 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/27 00:54:49 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	allocate_argument(t_arg *argument[3])
 
 void    initialize_instruction(t_inst **instructions)
 {
-	(*instructions)->line = -1;
+	(*instructions)->line = 0;
     (*instructions)->label = NULL;
 	(*instructions)->id = 16;
 	(*instructions)->name = NULL;

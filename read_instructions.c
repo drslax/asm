@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/25 22:08:21 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/27 00:58:08 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@ void	print_labels(t_label *labels)
 			i += 1;
 		}
 	}
+}
+
+int		check_duplicate_label(t_label *labels, char *label_name)
+{
+	int	index;
+
+	index = 0;
+	if (labels)
+	{
+		while (index < labels->id)
+		{
+			if (ft_strequ(labels[index].addr->label, label_name))
+				return (ft_raise_exception(19, "duplicate label"));
+			index += 1;
+		}
+	}
+	return (1);
 }
 
 void	store_label(t_label **labels, t_inst *list)
@@ -46,8 +63,9 @@ void	store_label(t_label **labels, t_inst *list)
 	}
 }
 
-void	add_instruction(t_inst **list, t_inst *new, t_label **labels)
+int		add_instruction(t_inst **list, t_inst *new, t_label **labels, int *num)
 {
+	new->line = *num;
 	if (!*list)
 	{
 		(*list) = new;
@@ -61,9 +79,13 @@ void	add_instruction(t_inst **list, t_inst *new, t_label **labels)
 		(*list)->tail->next = NULL;
 	}
 	if (new->label)
+	{
+		if (!check_duplicate_label(*labels, new->label))
+			return (0);
 		store_label(labels, *list);
-	// if (new->label)
-	// 	store_label(*data);
+	}
+	*num += 1;
+	return (1);
 }
 
 void print_data(t_asm *data, int debug)
@@ -77,7 +99,7 @@ void print_data(t_asm *data, int debug)
 		printf(".filename %s\n", data->file_name);
 		printf(".name %s\n", data->cmd_name);
 		printf(".cmt %s\n", data->cmd_comment);
-		printf("remaining labels %d\n", data->remain_labels);
+		printf("remaining labels %d\n", data->instructions->label_in_arg);
 		inst = data->instructions;
 		printf("MAGIC DZAB :%s\n", ft_itoa(COREWAR_EXEC_MAGIC));
 		while (inst)
@@ -332,14 +354,11 @@ int		emptylines(char *line)
 **				C)	notalabel			|	spaces = 0	!*(line + spaces) = '\0'
 */
 
-int		label_simple_line(char *line, int cursor, t_asm *data, t_inst *new)
+int		label_simple_line(int *num, int cursor, t_asm *data, t_inst *new)
 {
 	if (cursor)
-	{
-		add_instruction(&data->instructions, new, &data->labels);
-		return (1);
-	}
-	return (ft_raise_exception(12, line));
+		return (add_instruction(&data->instructions, new, &data->labels, num));
+	return (ft_raise_exception(12, NULL));
 }
 
 /*
@@ -355,13 +374,12 @@ int		get_instructions(char *line, t_asm *data)
 
 	allocate_instruction(&new);
 	initialize_instruction(&new);
-	new->line = num++;
 	if (!*line)
 		return (1);
 	if ((cursor = manage_label(line, new)) == -1)
 		return (force_quit(NULL, NULL, new));
 	if (!*(line + cursor))
-		return (label_simple_line(line, cursor, data, new));
+		return (label_simple_line(&num, cursor, data, new));
 	cursor += manage_inst_name(line + cursor, new);
 	if (!cursor)
 		return (0);
@@ -371,7 +389,8 @@ int		get_instructions(char *line, t_asm *data)
 		return (0);
 	if (update_size_instruction(new))
 		data->remain_labels = 1;
-	add_instruction(&data->instructions, new, &data->labels);
+	if (!add_instruction(&data->instructions, new, &data->labels, &num))
+		return (0);
 	data->size_champ += new->size;
 	return (1);
 }
