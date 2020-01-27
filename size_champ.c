@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/27 04:11:14 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/27 07:28:41 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		update_size_instruction(t_inst *inst)
 			if (inst->args[index]->type != T_REG)
 			{
 				name = inst->args[index]->name;
-				if (name && *(name + 1) == LABEL_CHAR)
+				if ((name && *(name + 1) == LABEL_CHAR) || (name && *name == LABEL_CHAR))
 					inst->label_in_arg = 1;
 			}
 			index += 1;
@@ -73,7 +73,6 @@ int		get_value(t_asm *data, int current_line, int position)
 		current_inst = iter_in_instructions(data->instructions, current_line);
 		while (position && current_inst)
 		{
-			printf("\t%2d line added\n", current_inst->line);
 			result += current_inst->size;
 			current_inst = current_inst->next;
 			position -= 1;
@@ -84,13 +83,11 @@ int		get_value(t_asm *data, int current_line, int position)
 		position + current_line);
 	while (position < 0 && current_inst)
 	{
-		printf("position = %d\n", position);
 		while (!current_inst->name)
 		{
 			position += 1;
 			current_inst = current_inst->next;
 		}
-		printf("\t%2d line added\n", current_inst->line);
 		result += current_inst->size;
 		current_inst = current_inst->next;
 		position += 1;
@@ -107,11 +104,10 @@ int		get_label_line(t_asm *data, t_inst *inst, int id)
 	index = 0;
 	while (index < label->id)
 	{
-		if (ft_strequ(label[index].addr->label, inst->args[id]->name + 2))
-		{
-			// printf("stored = %d | current = %d\n", label[index].addr->line, inst->line);
+		if (ft_strequ(label[index].addr->label,
+			*(inst->args[id]->name) == LABEL_CHAR ?
+				inst->args[id]->name + 1: inst->args[id]->name + 2))
 			return (label[index].addr->line - inst->line);
-		}
 		index += 1;
 	}
 	return (ft_raise_exception(18, inst->args[id]->name + 2));
@@ -132,15 +128,17 @@ void	get_label_value(t_inst *inst, t_asm *data)
 			index = 0;
 			while (index < 3)
 			{
+				// printf(">> %s | type = %d\n", inst->args[index]->name, inst->args[index]->type);
 				if (inst->args[index]->type != T_REG)
 				{
 					name = inst->args[index]->name;
-					if (name && name + 1 && *(name + 1) == LABEL_CHAR)
+					if ((name && name + 1 && *(name + 1) == LABEL_CHAR )|| (name && *name == LABEL_CHAR))
 					{
 						if ((diff_line = get_label_line(data, inst, index)) != 0)
 						{
 							value = get_value(data, inst->line, diff_line);
 							ft_memdel((void**)&(inst->args[index]->name));
+							// printf("type = %d\n", inst->args[index]->type);
 							if (inst->args[index]->type == T_DIR)
 							{
 								tab[0] = DIRECT_CHAR;
@@ -148,10 +146,11 @@ void	get_label_value(t_inst *inst, t_asm *data)
 								inst->args[index]->name = ft_strjoin(tab, ft_itoa(value));
 							}
 							else
+							{
 								inst->args[index]->name = ft_itoa(value);
+								// printf("value = %s\n",ft_itoa(value));
+							}
 						}
-							// printf("%d | diff_line %d\n", inst->line, diff_line);
-							//inst->label_in_arg += get_size_label(data, inst, diff_line, inst->line);
 					}
 				}
 				index += 1;

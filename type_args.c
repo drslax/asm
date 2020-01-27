@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 22:56:38 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/26 00:56:28 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/27 07:22:09 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int     check_valid_args(t_inst *inst)
 		index = 0;
 		while (index < max_arg)
 		{
+			// printf("%s | type = %d\n%d\n", inst->args[index]->name, str_type_arg(inst->args[index]->name),
+			// !(str_type_arg(inst->args[index]->name) & g_op_tab[inst->id].args_type[index]));
 			if (!(str_type_arg(inst->args[index]->name) & g_op_tab[inst->id].args_type[index]))
 				return (ft_raise_exception(17, inst->args[index]->name));
 			if (!is_valid_reg(inst->args[index]))

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/27 00:36:00 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/27 06:19:33 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,8 @@ void	allocate_label(t_label **label);
 
 void	get_label_value(t_inst *inst, t_asm *data);
 void	print_labels(t_label *labels);
+
+// int		ft_atoi_base(char *nb, unsigned int base);
+
 
 #endif
