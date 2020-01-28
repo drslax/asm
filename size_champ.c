@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/27 07:28:41 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 01:22:16 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		get_value(t_asm *data, int current_line, int position)
 	}
 	current_inst = iter_in_instructions(data->instructions,
 		position + current_line);
+	// printf("initial position = %d | %s\n", current_inst->line, current_inst->label);
 	while (position < 0 && current_inst)
 	{
 		while (!current_inst->name)
@@ -88,9 +89,18 @@ int		get_value(t_asm *data, int current_line, int position)
 			position += 1;
 			current_inst = current_inst->next;
 		}
-		result += current_inst->size;
-		current_inst = current_inst->next;
-		position += 1;
+		if (!position)
+			break ;
+		// {
+			// printf("\t%d: %d line added.\n",current_inst->line, current_inst->size);
+			result += current_inst->size;
+			current_inst = current_inst->next;
+			position += 1;
+		// }
+		// else
+		// {
+		// }
+		
 	}
 	return (-result);
 }
@@ -136,7 +146,9 @@ void	get_label_value(t_inst *inst, t_asm *data)
 					{
 						if ((diff_line = get_label_line(data, inst, index)) != 0)
 						{
+							printf("this label = %d\n", inst->line);
 							value = get_value(data, inst->line, diff_line);
+							printf("label = %s => %d\n", inst->args[index]->name, value);
 							ft_memdel((void**)&(inst->args[index]->name));
 							// printf("type = %d\n", inst->args[index]->type);
 							if (inst->args[index]->type == T_DIR)
