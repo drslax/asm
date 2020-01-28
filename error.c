@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelouarg <aelouarg@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:43:44 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/21 00:08:02 by aelouarg         ###   ########.fr       */
+/*   Updated: 2020/01/28 05:51:23 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*g_error_strings[] =
 	"Program_name' command already defined",
 	"Comment' command already defined",
 	"Command not well formated",
-	"Program_name' length above PROG_NAME_LENGTH",
-	"Comment' command length above COMMENT_LENGTH",
+	"Command length above ",
+	"Command length above ",
 	"Undefined command :",
 	"Program should start with commands",
 	"Missing command :",

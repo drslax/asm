@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 05:13:10 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 05:55:22 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int			store_comment_cmd(int fd, char *line, char *buffer, size_t buffsize)
 		else if (inquote)
 		{
 			if (buffer_index >= buffsize)
-				return (0);
+				return (ft_raise_exception(6, ft_itoa(buffsize)));
 			buffer[buffer_index] = line[index];			
 			buffer_index++;
 		}
@@ -97,6 +97,8 @@ int			store_comment_cmd(int fd, char *line, char *buffer, size_t buffsize)
 		free(newline);
 		return (inquote);
 	}
+	if (buffer_index > buffsize)
+		return (ft_raise_exception(6, ft_itoa(buffsize)));
 	return (1);
 }
 
@@ -150,21 +152,22 @@ int		get_command(int fd, char *line, t_asm *data)
 		return (ft_raise_exception(8, line));
 	else if (name_cmd && !comment_cmd)
 	{
-		char	comment_buffer[PROG_NAME_LENGTH];
+		char	name_buffer[PROG_NAME_LENGTH + 2];
 
 		
-		ft_bzero(comment_buffer, PROG_NAME_LENGTH);
-		if (!store_comment_cmd(fd, line + ft_strlen(NAME_CMD_STRING) + skip_wsp(line + ft_strlen(NAME_CMD_STRING)), comment_buffer, PROG_NAME_LENGTH))
+		ft_bzero(name_buffer, PROG_NAME_LENGTH + 2);
+		if (!store_comment_cmd(fd, line + ft_strlen(NAME_CMD_STRING) + skip_wsp(line + ft_strlen(NAME_CMD_STRING)), name_buffer, PROG_NAME_LENGTH))
 			return (0);
-		data->cmd_name = ft_strdup(comment_buffer);
+		data->cmd_name = ft_strdup(name_buffer);
+		printf(">>>%zu\n", ft_strlen(data->cmd_name));
 		return (1);
 	}
 	else if (!name_cmd && comment_cmd)
 	{
-		char	comment_buffer[COMMENT_LENGTH];
+		char	comment_buffer[COMMENT_LENGTH + 2];
 
 		
-		ft_bzero(comment_buffer, COMMENT_LENGTH);
+		ft_bzero(comment_buffer, COMMENT_LENGTH + 2);
 		if (!store_comment_cmd(fd, line + ft_strlen(COMMENT_CMD_STRING) + skip_wsp(line + ft_strlen(COMMENT_CMD_STRING)), comment_buffer, COMMENT_LENGTH))
 			return (0);
 		data->cmd_comment = ft_strdup(comment_buffer);
