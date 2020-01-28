@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 06:18:50 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 07:07:34 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ int		read_file(int filedesc, t_asm *data)
 	int		skipped;
 	char	*line;
 	char	*comment;
+	int		code;
 
 	while ((eol = get_next_line(filedesc, &line)) >= 0)
 	{
@@ -231,6 +232,7 @@ int		read_file(int filedesc, t_asm *data)
 			{
 				if (!get_instructions(line + skipped, data))
 					return (0);
+				code = 1;
 			}
 		}
 		ft_memdel((void**)&line);
@@ -242,6 +244,8 @@ int		read_file(int filedesc, t_asm *data)
 	// 	fix_label_size(data->instructions, data);
 	//printf("\e[1m\e[42m√\e[0m:\n");
 	// print_labels(data->labels);
+	if (!code)
+		return (ft_raise_exception(19, "sh had lbssala ?"));
 	if (!get_label_value(data->instructions, data))
 		return (0);
 	print_data(data, 0);
