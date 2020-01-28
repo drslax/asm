@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 22:56:38 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/28 06:40:44 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 06:55:39 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ int     is_valid_dir(t_arg *dir)
 {
 	if (dir->type == T_DIR)
 	{
-		if (!ft_isint(dir->name + 1) && (dir->name && dir->name + 1 && *(dir->name + 1) != LABEL_CHAR))
-			return (ft_raise_exception(18, dir->name));
+			if (ft_strlen(dir->name) <= 1 || ((dir->name + 1 && !ft_isint(dir->name + 1)) &&
+				(dir->name && dir->name + 1 && *(dir->name + 1) != LABEL_CHAR)))
+				return (ft_raise_exception(18, dir->name));
 	}
 	return (1);
 }
@@ -79,7 +80,7 @@ int     is_valid_ind(t_arg *ind)
 {
 	if (ind->type == T_IND)
 	{
-		if (!ft_isint(ind->name + 1) && (ind->name && *ind->name != LABEL_CHAR))
+		if ((ind->name + 1 && !ft_isint(ind->name + 1) )&& (ind->name && *ind->name != LABEL_CHAR))
 			return (ft_raise_exception(18, ind->name));
 	}
 	return (1);
