@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/28 01:22:16 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 04:59:23 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@ void	get_label_value(t_inst *inst, t_asm *data)
 					{
 						if ((diff_line = get_label_line(data, inst, index)) != 0)
 						{
-							printf("this label = %d\n", inst->line);
+							// printf("this label = %d\n", inst->line);
 							value = get_value(data, inst->line, diff_line);
-							printf("label = %s => %d\n", inst->args[index]->name, value);
+							// printf("label = %s => %d\n", inst->args[index]->name, value);
 							ft_memdel((void**)&(inst->args[index]->name));
 							// printf("type = %d\n", inst->args[index]->type);
 							if (inst->args[index]->type == T_DIR)

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:13:08 by sou3ada           #+#    #+#             */
-/*   Updated: 2020/01/27 00:54:49 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 04:44:44 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,4 @@ void	allocate_instruction(t_inst **instructions)
 {
 	if (!(*instructions = (t_inst*)malloc(sizeof(t_inst))))
         exit (-1);
-    // *instructions = NULL;
 }

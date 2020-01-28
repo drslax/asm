@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 03:15:46 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 05:00:07 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,19 +143,32 @@ int		get_command(int fd, char *line, t_asm *data)
 	int		name_cmd;
 	int		comment_cmd;
 
+	(void)data;
 	name_cmd = command_isname(line);
 	comment_cmd = command_iscomment(line);
 	if (!name_cmd && !comment_cmd)
 		return (ft_raise_exception(8, line));
 	else if (name_cmd && !comment_cmd)
-		return (store_name_cmd(data, line));
+	{
+		char	comment_buffer[PROG_NAME_LENGTH];
+
+		
+		ft_bzero(comment_buffer, PROG_NAME_LENGTH);
+		if (!store_comment_cmd(fd, line + ft_strlen(NAME_CMD_STRING) + skip_wsp(line + ft_strlen(NAME_CMD_STRING)), comment_buffer, PROG_NAME_LENGTH))
+			return (0);
+		data->cmd_name = ft_strdup(comment_buffer);
+		return (1);
+	}
 	else if (!name_cmd && comment_cmd)
 	{
 		char	comment_buffer[COMMENT_LENGTH];
 
 		
 		ft_bzero(comment_buffer, COMMENT_LENGTH);
-		return (store_comment_cmd(fd, line + ft_strlen(COMMENT_CMD_STRING) + skip_wsp(line + ft_strlen(COMMENT_CMD_STRING)), comment_buffer, COMMENT_LENGTH));
+		if (!store_comment_cmd(fd, line + ft_strlen(COMMENT_CMD_STRING) + skip_wsp(line + ft_strlen(COMMENT_CMD_STRING)), comment_buffer, COMMENT_LENGTH))
+			return (0);
+		data->cmd_comment = ft_strdup(comment_buffer);
+		return (1);
 		//return (store_comment_cmd(data, line));
 	}
 	return (0);
