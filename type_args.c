@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 22:56:38 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/28 06:00:28 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 06:40:44 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,26 @@ int     is_valid_reg(t_arg *reg)
 	return (1);
 }
 
+int     is_valid_dir(t_arg *dir)
+{
+	if (dir->type == T_DIR)
+	{
+		if (!ft_isint(dir->name + 1) && (dir->name && dir->name + 1 && *(dir->name + 1) != LABEL_CHAR))
+			return (ft_raise_exception(18, dir->name));
+	}
+	return (1);
+}
+
+int     is_valid_ind(t_arg *ind)
+{
+	if (ind->type == T_IND)
+	{
+		if (!ft_isint(ind->name + 1) && (ind->name && *ind->name != LABEL_CHAR))
+			return (ft_raise_exception(18, ind->name));
+	}
+	return (1);
+}
+
 int     check_valid_args(t_inst *inst)
 {
 	int index;
@@ -81,6 +101,10 @@ int     check_valid_args(t_inst *inst)
 			if (!(str_type_arg(inst->args[index]->name) & g_op_tab[inst->id].args_type[index]))
 				return (ft_raise_exception(17, inst->args[index]->name));
 			if (!is_valid_reg(inst->args[index]))
+				return (0);
+			if (!is_valid_dir(inst->args[index]))
+				return (0);
+			if (!is_valid_ind(inst->args[index]))
 				return (0);
 			index += 1;
 		}

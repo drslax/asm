@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:43:44 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 05:51:23 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 06:12:02 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*g_error_strings[] =
 	"Comment' command already defined",
 	"Command not well formated",
 	"Command length above ",
-	"Command length above ",
+	"Undefined label ",
 	"Undefined command :",
 	"Program should start with commands",
 	"Missing command :",

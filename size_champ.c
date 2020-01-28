@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/28 04:59:23 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 06:33:27 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		get_value(t_asm *data, int current_line, int position)
 	return (-result);
 }
 
-int		get_label_line(t_asm *data, t_inst *inst, int id)
+int		get_label_line(t_asm *data, t_inst *inst, int id, int *error)
 {
 	int		index;
 	t_label	*label;
@@ -120,17 +120,20 @@ int		get_label_line(t_asm *data, t_inst *inst, int id)
 			return (label[index].addr->line - inst->line);
 		index += 1;
 	}
-	return (ft_raise_exception(18, inst->args[id]->name + 2));
+	*error = 1;
+	return (ft_raise_exception(7, ft_itoa(inst->line)));
 }
 
-void	get_label_value(t_inst *inst, t_asm *data)
+int		get_label_value(t_inst *inst, t_asm *data)
 {
 	int		diff_line;
 	int		index;
 	char	*name;
+	int		error;
 	char	tab[2];
 	int		value;
 
+	error = 0;
 	while (inst)
 	{
 		if (inst->label_in_arg)
@@ -142,9 +145,10 @@ void	get_label_value(t_inst *inst, t_asm *data)
 				if (inst->args[index]->type != T_REG)
 				{
 					name = inst->args[index]->name;
-					if ((name && name + 1 && *(name + 1) == LABEL_CHAR )|| (name && *name == LABEL_CHAR))
+					if ((name && name + 1 && *(name + 1) == LABEL_CHAR ) || (name && *name == LABEL_CHAR))
 					{
-						if ((diff_line = get_label_line(data, inst, index)) != 0)
+						diff_line = get_label_line(data, inst, index, &error);
+						if (!error)
 						{
 							// printf("this label = %d\n", inst->line);
 							value = get_value(data, inst->line, diff_line);
@@ -163,11 +167,16 @@ void	get_label_value(t_inst *inst, t_asm *data)
 								// printf("value = %s\n",ft_itoa(value));
 							}
 						}
+						else
+							return (0);
 					}
+					else if (name && name + 1 && !ft_isint(name + 1))
+						return (ft_raise_exception(17, name));
 				}
 				index += 1;
 			}
 		}
 		inst = inst->next;
 	}
+	return (1);
 }
