@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/27 04:47:09 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 05:15:04 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int		read_args(char *filename, t_asm *data)
 	char	*error;
 
 	filedesc = open_file(filename);
-	initialize_asm(&data, grab_filename(filename));
+	//initialize_asm(&data, grab_filename(filename));
+	initialize_asm(&data, filename);
 	if (!errno)
 	{
 		if (!read_file(filedesc, data))

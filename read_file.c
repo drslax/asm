@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 05:00:07 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 05:13:10 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,6 @@ int		read_file(int filedesc, t_asm *data)
 	//printf("\e[1m\e[42m√\e[0m:\n");
 	// print_labels(data->labels);
 	get_label_value(data->instructions, data);
-	print_data(data, 1);
+	print_data(data, 0);
 	return (1);
 }

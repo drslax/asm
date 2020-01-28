@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/27 00:58:08 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 05:15:54 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,14 @@ void print_data(t_asm *data, int debug)
 		}
 	}
 	else
-		printf("Writing output program to %s\n", data->file_name);
+	{
+			char	*name;
+			char	*path;
+
+			name = ft_strsub(data->file_name, 0, ft_strlen(data->file_name) - 2);
+			path = ft_strjoin(name, ".cor");
+		printf("Writing output program to %s\n", path);
+	}
 }
 
 /*
