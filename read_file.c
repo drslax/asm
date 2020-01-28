@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/27 23:58:35 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 03:15:46 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,46 @@ int		store_name_cmd(t_asm *data, char *line)
 	return (0);
 }
 
-int		store_comment_cmd(t_asm *data, char *line)
+int			store_comment_cmd(int fd, char *line, char *buffer, size_t buffsize)
+{
+	char	*newline;
+	int		inquote;
+	int		index;
+	size_t	buffer_index;
+
+	index = 0;
+	inquote = 0;
+	buffer_index = ft_strlen(buffer);
+	if (buffer_index)
+		inquote = 1;
+	while (line[index])
+	{
+		if (line[index] == '"')
+			inquote ^= 1;
+		else if (inquote)
+		{
+			if (buffer_index >= buffsize)
+				return (0);
+			buffer[buffer_index] = line[index];			
+			buffer_index++;
+		}
+		else
+			return (ft_raise_exception(19, &line[index]));
+		index++;
+	}
+	if (inquote)
+	{
+		buffer[buffer_index] = '\n';
+		if (get_next_line(fd, &newline) < 1)
+			return (0);
+		inquote = store_comment_cmd(fd, newline, buffer, buffsize);
+		free(newline);
+		return (inquote);
+	}
+	return (1);
+}
+
+/*int		store_comment_cmd(t_asm *data, char *line)
 {
 	size_t	length;
 	char	*content;
@@ -79,7 +118,7 @@ int		store_comment_cmd(t_asm *data, char *line)
 		}
 	}
 	return (0);
-}
+}*/
 
 int		command_isname(char *line)
 {
@@ -99,7 +138,7 @@ int		command_iscomment(char *line)
 	return (0);
 }
 
-int		get_command(char *line, t_asm *data)
+int		get_command(int fd, char *line, t_asm *data)
 {
 	int		name_cmd;
 	int		comment_cmd;
@@ -111,17 +150,16 @@ int		get_command(char *line, t_asm *data)
 	else if (name_cmd && !comment_cmd)
 		return (store_name_cmd(data, line));
 	else if (!name_cmd && comment_cmd)
-		return (store_comment_cmd(data, line));
+	{
+		char	comment_buffer[COMMENT_LENGTH];
+
+		
+		ft_bzero(comment_buffer, COMMENT_LENGTH);
+		return (store_comment_cmd(fd, line + ft_strlen(COMMENT_CMD_STRING) + skip_wsp(line + ft_strlen(COMMENT_CMD_STRING)), comment_buffer, COMMENT_LENGTH));
+		//return (store_comment_cmd(data, line));
+	}
 	return (0);
 }
-
-// void	allocate_label(t_label **label)
-// {
-// 		*label = (t_label*)malloc(sizeof(t_label));
-// 		(*label)->id = -1;
-// 		(*label)->name = NULL;
-// 		(*label)->addr = NULL;
-// }
 
 int		force_quit(char *line, t_asm *data, t_inst *inst)
 {
@@ -132,17 +170,23 @@ int		force_quit(char *line, t_asm *data, t_inst *inst)
 	return (0);
 }
 
-// void	print_labels(t_label *lab)
-// {
-// 	int i = 0;
+char	*ft_find_comment(char *line)
+{
+	int index;
+	int	inquote;
 
-// 	while (lab)
-// 	{
-// 		printf("lab %d = %s\n", i, lab->name);
-// 		lab = lab->next;
-// 		i += 1;
-// 	}
-// }
+	index = 0;
+	inquote = 0;
+	while (line[index])
+	{
+		if (line[index] == '"')
+			inquote ^= 1;
+		if (!inquote && line[index] == COMMENT_CHAR)
+			return (&line[index]);
+		index++;
+	}
+	return (NULL);
+}
 
 /*
 ** force quit in return (0)
@@ -160,11 +204,11 @@ int		read_file(int filedesc, t_asm *data)
 		skipped = skip_wsp(line);
 		if (line && line[0] != COMMENT_CHAR && !ft_strequ(line, ""))
 		{
-			if ((comment = ft_strchr(line, COMMENT_CHAR)))
+			if ((comment = ft_find_comment(line)))
 				comment[0] = '\0';
 			if (!data->cmd_name || !data->cmd_comment || line[skipped] == '.')
 			{
-				if (!(get_command(line + skipped, data)))
+				if (!(get_command(filedesc, line + skipped, data)))
 					return (0);
 			}
 			else
@@ -180,7 +224,7 @@ int		read_file(int filedesc, t_asm *data)
 	//print_labels(data->labels);
 	// if (data->remain_labels)
 	// 	fix_label_size(data->instructions, data);
-	printf("\e[1m\e[42m√\e[0m:\n");
+	//printf("\e[1m\e[42m√\e[0m:\n");
 	// print_labels(data->labels);
 	get_label_value(data->instructions, data);
 	print_data(data, 1);
