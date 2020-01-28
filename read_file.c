@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 05:55:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/28 06:05:53 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int		get_command(int fd, char *line, t_asm *data)
 		if (!store_comment_cmd(fd, line + ft_strlen(NAME_CMD_STRING) + skip_wsp(line + ft_strlen(NAME_CMD_STRING)), name_buffer, PROG_NAME_LENGTH))
 			return (0);
 		data->cmd_name = ft_strdup(name_buffer);
-		printf(">>>%zu\n", ft_strlen(data->cmd_name));
+	//	printf(">>>%zu\n", ft_strlen(data->cmd_name));
 		return (1);
 	}
 	else if (!name_cmd && comment_cmd)
@@ -197,7 +197,7 @@ char	*ft_find_comment(char *line)
 	{
 		if (line[index] == '"')
 			inquote ^= 1;
-		if (!inquote && line[index] == COMMENT_CHAR)
+		if (!inquote && (line[index] == COMMENT_CHAR || line[index] == COMMENT_CHAR_2))
 			return (&line[index]);
 		index++;
 	}
@@ -218,7 +218,7 @@ int		read_file(int filedesc, t_asm *data)
 	while ((eol = get_next_line(filedesc, &line)) >= 0)
 	{
 		skipped = skip_wsp(line);
-		if (line && line[0] != COMMENT_CHAR && !ft_strequ(line, ""))
+		if ((line && (line[0] != COMMENT_CHAR || line[0] != COMMENT_CHAR_2)) && !ft_strequ(line, ""))
 		{
 			if ((comment = ft_find_comment(line)))
 				comment[0] = '\0';
