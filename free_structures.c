@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 20:24:16 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 05:54:43 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 08:52:55 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ void	free_s_instructions(t_inst **inst)
 			*inst = (*inst)->next;
 			ft_memdel((void**)&tmp->label);
 			ft_memdel((void**)&tmp->name);
-			ft_memdel((void**)&tmp->args[0]);
-			ft_memdel((void**)&tmp->args[1]);
-			ft_memdel((void**)&tmp->args[2]);
+			ft_memdel((void**)&tmp->args[0]->name);
+			ft_memdel((void**)&(tmp->args[0]));
+			ft_memdel((void**)&tmp->args[1]->name);
+			ft_memdel((void**)&(tmp->args[1]));
+			ft_memdel((void**)&tmp->args[2]->name);
+			ft_memdel((void**)&(tmp->args[2]));
 			ft_memdel((void**)&tmp);
 		}
 	}
@@ -38,6 +41,25 @@ int		free_s_asm_node(t_asm **data)
 	return (0);
 }
 
+int		free_s_label(t_label **labels)
+{
+	int	index;
+
+	index = 0;
+	if (labels && *labels)
+	{
+		while (index < (*labels)->id)
+		{
+			if ((*labels))
+			{
+				ft_memdel((void**)&(((*labels)[index])));
+			}
+			index += 1;
+		}
+	}
+	return (0);
+}
+
 int		free_s_asm(t_asm **data)
 {
 	if (data && *data)
@@ -45,14 +67,16 @@ int		free_s_asm(t_asm **data)
 		ft_memdel((void**)&(*data)->cmd_comment);
 		ft_memdel((void**)&(*data)->cmd_name);
 		free_s_instructions(&(*data)->instructions);
+		ft_memdel((void**)&(*data)->labels);
+		// labels ? free_s_label(&(*data)->labels) : 0;
 	}
 	return (0);
 }
 
-int		force_quit(char *line, t_asm *data, t_inst *inst)
+int		force_quit(char *line, t_asm **data, t_inst **inst)
 {
 	line ? ft_memdel((void**)&line) : 0;
-	data ? free_s_asm(&data) : 0;
-	(void)inst;
+	data && (*data)->labels ? free_s_label(&(*data)->labels) : 0;
+	free_s_instructions(inst);
 	return (0);
 }

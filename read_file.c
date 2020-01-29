@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:42:13 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 08:53:34 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,32 @@ int		read_line(int filedesc, t_asm *data, int *code)
 		if (!eol)
 			break ;
 	}
+	ft_memdel((void**)&line);
 	return (!(*code) ? ft_raise_exception(19, "sh had lbssala ?") : 1);
+}
+
+void	write_valid_output(char *file_name)
+{
+	char	*name;
+	char	*path;
+
+	name = ft_strsub(file_name, 0, ft_strlen(file_name) - 2);
+	path = ft_strjoin(name, ".cor");
+	ft_memdel((void**)&name);
+	printf("Writing output program to %s\n", path);
+	ft_memdel((void**)&path);
 }
 
 int		read_file(int filedesc, t_asm *data)
 {
 	int		code;
 
+
 	code = 0;
 	if (!read_line(filedesc, data, &code))
 		return (0);
 	if (!replace_label_value(data->instructions, data))
 		return (0);
-	print_data(data, 0);
+	write_valid_output(data->file_name);
 	return (1);
 }

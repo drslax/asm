@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:49:09 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 08:53:46 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ int		main(int argc, char **argv)
 		while (++iterator < argc)
 		{
 			allocate_asm(&data);
+			initialize_asm(&data, NULL);
 			if (!parse_args(argv[iterator], data))
 			{
 				continue ;
 			}
 			write_file(data);
+			free_s_asm(&data);
+			free_s_asm_node(&data);
 		}
 	else
 		ft_raise_exception(2, NULL);

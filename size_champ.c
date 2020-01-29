@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/29 05:51:58 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 08:16:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,17 @@ int		get_label_line(t_asm *data, t_inst *inst, int id, int *error)
 void	replace_by_type(t_inst *inst, int index, int value)
 {
 	char	tab[2];
+	char	*itoa_value;
 
+	itoa_value = NULL;
+	ft_memdel((void**)&(inst->args[index]->name));
 	if (inst->args[index]->type == T_DIR)
 	{
 		tab[0] = DIRECT_CHAR;
 		tab[1] = '\0';
-		inst->args[index]->name = ft_strjoin(tab, ft_itoa(value));
+		itoa_value = ft_itoa(value);
+		inst->args[index]->name = ft_strjoin(tab, itoa_value);
+		ft_memdel((void**)&(itoa_value));
 	}
 	else
 		inst->args[index]->name = ft_itoa(value);
@@ -69,7 +74,6 @@ int		replace_label_value(t_inst *inst, t_asm *data)
 					if (error)
 						return (0);
 					value = get_value(data, inst->line, diff_line);
-					ft_memdel((void**)&(inst->args[index]->name));
 					replace_by_type(inst, index, value);
 				}
 			}

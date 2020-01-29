@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:13:08 by sou3ada           #+#    #+#             */
-/*   Updated: 2020/01/29 06:46:58 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 08:42:36 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,12 @@ void	initialize_asm(t_asm **data, char *arg)
 
 void	allocate_argument(t_arg *argument[3])
 {
-	argument[0] = (t_arg*)malloc(sizeof(t_arg));
-	argument[1] = (t_arg*)malloc(sizeof(t_arg));
-	argument[2] = (t_arg*)malloc(sizeof(t_arg));
+	if (!(argument[0] = (t_arg*)malloc(sizeof(t_arg))))
+		exit(-1);
+	if (!(argument[1] = (t_arg*)malloc(sizeof(t_arg))))
+		exit(-1);
+	if (!(argument[2] = (t_arg*)malloc(sizeof(t_arg))))
+		exit(-1);
 	argument[0]->name = NULL;
 	argument[0]->type = 16;
 	argument[1]->name = NULL;

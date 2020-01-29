@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 03:48:17 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 05:53:09 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 07:39:00 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int		valid_label(char *line, char *label, t_inst *inst)
 {
 	int index;
+	int	ischarin;
 
 	index = 0;
-	if (ft_ischarin(LABEL_CHARS, *(label - 1)))
+	if ((ischarin = ft_ischarin(LABEL_CHARS, *(label - 1))))
 	{
 		inst->label = ft_strsub(line, 0, label - line);
 		while (inst->label[index])

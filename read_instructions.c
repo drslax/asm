@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:49:41 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 08:48:27 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int		add_instruction(t_inst **list, t_inst *new, t_label **labels, int *num)
 	if (new->label)
 	{
 		if (!check_duplicate_label(*labels, new->label))
+		{
+			force_quit(NULL, NULL, &new);
 			return (0);
+		}
 		store_label(labels, *list);
 	}
 	*num += 1;
@@ -51,6 +54,7 @@ int		label_simple_line(int *num, int cursor, t_asm *data, t_inst *new)
 {
 	if (cursor)
 		return (add_instruction(&data->instructions, new, &data->labels, num));
+	force_quit(NULL, NULL, &new);
 	return (ft_raise_exception(12, NULL));
 }
 
@@ -65,6 +69,7 @@ int		manage_inst_name(char *line, t_inst *new)
 	{
 		if ((name = ft_strstr(line, g_op_tab[index].name)) && !(name - line))
 		{
+			ft_memdel((void**)&new->name);
 			new->name = ft_strdup(g_op_tab[index].name);
 			new->id = index;
 			args = ft_strlen(new->name) + skip_wsp(line + ft_strlen(new->name));
@@ -72,8 +77,7 @@ int		manage_inst_name(char *line, t_inst *new)
 	}
 	if (new->name)
 		return (args);
-	ft_raise_exception(12, NULL);
-	exit(-1);
+	return (ft_raise_exception(12, NULL));
 }
 
 /*
@@ -84,27 +88,30 @@ int		manage_inst_name(char *line, t_inst *new)
 int		get_instructions(char *line, t_asm *data, int *code)
 {
 	int			cursor;
+	int			inst_name;
 	t_inst		*new;
 	static int	num;
 
+	inst_name = 0;
 	initialize_instruction(&new);
 	if (!*line)
 		return (1);
 	if ((cursor = manage_label(line, new)) == -1)
-		return (force_quit(NULL, NULL, new));
+		return (force_quit(NULL, NULL, &new));
 	if (!*(line + cursor))
 		return (label_simple_line(&num, cursor, data, new));
-	cursor += manage_inst_name(line + cursor, new);
-	if (!cursor)
-		return (0);
+	inst_name = manage_inst_name(line + cursor, new);
+	cursor += inst_name;
+	if (!cursor || !inst_name)
+		return (force_quit(NULL, NULL, &new));
 	if (!*(line + cursor))
 		return (ft_raise_exception(14, NULL));
 	if (!(manage_arguments(line + cursor, new)))
-		return (0);
+		return (force_quit(NULL, NULL, &new));
 	if (update_size_instruction(new))
 		data->remain_labels = 1;
 	if (!add_instruction(&data->instructions, new, &data->labels, &num))
-		return (0);
+		return (force_quit(NULL, NULL, &new));
 	data->size_champ += new->size;
 	*code = 1;
 	return (1);

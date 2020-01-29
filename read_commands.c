@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 03:40:35 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:49:32 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 07:40:09 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,20 @@ void	ft_find_comment(char *line)
 
 int		command_isname(char *line)
 {
-	char	*cmd;
+	char	*command;
 
-	if ((cmd = ft_strstr(line, NAME_CMD_STRING)) && !(line - cmd))
+	command = NULL;
+	if ((command = ft_strstr(line, NAME_CMD_STRING)) && !(line - command))
 		return (1);
 	return (0);
 }
 
 int		command_iscomment(char *line)
 {
-	char	*cmd;
+	char	*command;
 
-	if ((cmd = ft_strstr(line, COMMENT_CMD_STRING)) && !(line - cmd))
+	command = NULL;
+	if ((command = ft_strstr(line, COMMENT_CMD_STRING)) && !(line - command))
 		return (1);
 	return (0);
 }
