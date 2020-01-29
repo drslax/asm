@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bytecode_file_generator.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:49:09 by slyazid          ###   ########.fr       */
+/*   Created: 2020/01/22 23:19:51 by aelouarg          #+#    #+#             */
+/*   Updated: 2020/01/29 06:47:28 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
 
-int		main(int argc, char **argv)
+int	create_file(t_asm *data)
 {
-	t_asm	*data;
-	int		iterator;
+	int		filedesc;
+	char	*name;
+	char	*path;
 
-	iterator = 0;
-	data = NULL;
-	if (argc > 1)
-		while (++iterator < argc)
-		{
-			allocate_asm(&data);
-			if (!parse_args(argv[iterator], data))
-			{
-				continue ;
-			}
-			write_file(data);
-		}
-	else
-		ft_raise_exception(2, NULL);
-	return (1);
+	name = ft_strsub(data->file_name, 0, ft_strlen(data->file_name) - 2);
+	path = ft_strjoin(name, ".cor");
+	ft_memdel((void**)&name);
+	if ((filedesc = open(path, O_WRONLY | O_TRUNC | O_CREAT, 0777)) < 0)
+	{
+		ft_memdel((void**)&path);
+		return (-1);
+	}
+	ft_memdel((void**)&path);
+	return (filedesc);
 }
-
-/*
-**	free before contnue and after write;
-*/

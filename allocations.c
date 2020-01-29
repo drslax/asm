@@ -6,21 +6,21 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 16:13:08 by sou3ada           #+#    #+#             */
-/*   Updated: 2020/01/28 04:44:44 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 06:46:58 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assembler.h"
 
-void    allocate_asm(t_asm **data)
+void	allocate_asm(t_asm **data)
 {
-    if (!(*data = (t_asm *)malloc(sizeof(t_asm))))
+	if (!(*data = (t_asm *)malloc(sizeof(t_asm))))
 		exit(-1);
 }
 
-void    allocate_label(t_label **label)
+void	allocate_label(t_label **label)
 {
-    if (!(*label = (t_label *)malloc(sizeof(t_label))))
+	if (!(*label = (t_label *)malloc(sizeof(t_label))))
 		exit(-1);
 }
 
@@ -32,9 +32,7 @@ void	initialize_asm(t_asm **data, char *arg)
 	(*data)->size_champ = 0;
 	(*data)->remain_labels = 0;
 	(*data)->instructions = NULL;
-    (*data)->labels = NULL;
-	// allocate_label(&(*data)->labels);
-	// allocate_instruction(&(*data)->instructions);
+	(*data)->labels = NULL;
 }
 
 void	allocate_argument(t_arg *argument[3])
@@ -50,21 +48,17 @@ void	allocate_argument(t_arg *argument[3])
 	argument[2]->type = 16;
 }
 
-void    initialize_instruction(t_inst **instructions)
+void	initialize_instruction(t_inst **instructions)
 {
+	if (!(*instructions = (t_inst*)malloc(sizeof(t_inst))))
+		exit(-1);
 	(*instructions)->line = 0;
-    (*instructions)->label = NULL;
+	(*instructions)->label = NULL;
 	(*instructions)->id = 16;
 	(*instructions)->name = NULL;
 	(*instructions)->size = 0;
 	(*instructions)->label_in_arg = 0;
 	allocate_argument((*instructions)->args);
-    (*instructions)->tail = NULL;
+	(*instructions)->tail = NULL;
 	(*instructions)->next = NULL;
-}
-
-void	allocate_instruction(t_inst **instructions)
-{
-	if (!(*instructions = (t_inst*)malloc(sizeof(t_inst))))
-        exit (-1);
 }
