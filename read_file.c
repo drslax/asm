@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 06:37:44 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 07:47:24 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		read_line(int filedesc, t_asm *data, int *code)
 	int		skip;
 	char	*line;
 
-	while ((eol = get_next_line(filedesc, &line)))
+	while ((eol = get_next_line(filedesc, &line)) > 0)
 	{
 		skip = skip_wsp(line);
 		if ((line && (line[0] != COMMENT_CHAR && line[0] != COMMENT_CHAR_2))
@@ -64,7 +64,7 @@ int		read_line(int filedesc, t_asm *data, int *code)
 		}
 		ft_memdel((void**)&line);
 	}
-	ft_memdel((void**)&line);
+	eol > 0 ? ft_memdel((void**)&line) : 0;
 	return (!(*code) ? ft_raise_exception(19, "sh had lbssala ?") : 1);
 }
 
