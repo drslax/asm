@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 22:56:38 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/29 04:59:52 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 06:37:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		is_valid_reg(t_arg *reg)
 	if (reg->type == T_REG)
 	{
 		if (!ft_isint(reg->name + 1) ||
-				ft_atoi(reg->name + 1) < 1 ||
+				ft_atoi(reg->name + 1) < 0 ||
 					ft_atoi(reg->name + 1) > REG_NUMBER)
 			return (ft_raise_exception(18, reg->name));
 	}

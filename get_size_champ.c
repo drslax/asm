@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 04:47:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:48:37 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 06:05:05 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int		label_name_after_call(t_asm *data, int current_line, int position)
 	result = 0;
 	current_inst = iter_in_instructions(data->instructions,
 	position + current_line);
-	while (position < 0 && current_inst)
+	while (current_inst && position < 0)
 	{
-		while (!current_inst->name)
+		while (current_inst && !current_inst->name)
 		{
 			position += 1;
 			current_inst = current_inst->next;
 		}
-		if (!position)
+		if (!position || !current_inst)
 			break ;
 		result += current_inst->size;
 		current_inst = current_inst->next;

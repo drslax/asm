@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/29 08:16:11 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 04:48:57 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,35 +50,31 @@ void	replace_by_type(t_inst *inst, int index, int value)
 		inst->args[index]->name = ft_itoa(value);
 }
 
-int		replace_label_value(t_inst *inst, t_asm *data)
+int		replace_label_value(t_inst *inst, t_asm *data, int index)
 {
 	int		diff_line;
-	int		index;
 	char	*name;
 	int		error;
 	int		value;
 
 	error = 0;
-	while (inst)
+	if (!inst)
+		return (1);
+	if (index < 0)
+		return (replace_label_value(inst->next, data, 2));
+	if (inst->args[index])
 	{
-		if (inst->label_in_arg)
+		name = inst->args[index]->name;
+		if ((name && name + 1 && *(name + 1) == LABEL_CHAR) ||
+			(name && *name == LABEL_CHAR))
 		{
-			index = -1;
-			while (++index < 3)
-			{
-				name = inst->args[index]->name;
-				if ((name && name + 1 && *(name + 1) == LABEL_CHAR) ||
-					(name && *name == LABEL_CHAR))
-				{
-					diff_line = get_label_line(data, inst, index, &error);
-					if (error)
-						return (0);
-					value = get_value(data, inst->line, diff_line);
-					replace_by_type(inst, index, value);
-				}
-			}
+			diff_line = get_label_line(data, inst, index, &error);
+			if (error)
+				return (0);
+			value = get_value(data, inst->line, diff_line);
+			ft_memdel((void**)&(inst->args[index]->name));
+			replace_by_type(inst, index, value);
 		}
-		inst = inst->next;
 	}
-	return (1);
+	return (replace_label_value(inst, data, index - 1));
 }

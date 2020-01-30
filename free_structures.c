@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 20:24:16 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 08:52:55 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 05:26:58 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int		free_s_asm(t_asm **data)
 		ft_memdel((void**)&(*data)->cmd_name);
 		free_s_instructions(&(*data)->instructions);
 		ft_memdel((void**)&(*data)->labels);
-		// labels ? free_s_label(&(*data)->labels) : 0;
 	}
 	return (0);
 }
@@ -76,7 +75,7 @@ int		free_s_asm(t_asm **data)
 int		force_quit(char *line, t_asm **data, t_inst **inst)
 {
 	line ? ft_memdel((void**)&line) : 0;
-	data && (*data)->labels ? free_s_label(&(*data)->labels) : 0;
+	data && (*data)->labels ? ft_memdel((void**)&(*data)->labels) : 0;
 	free_s_instructions(inst);
 	return (0);
 }

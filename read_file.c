@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 08:53:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 06:37:44 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		read_line(int filedesc, t_asm *data, int *code)
 	int		skip;
 	char	*line;
 
-	while ((eol = get_next_line(filedesc, &line)) >= 0)
+	while ((eol = get_next_line(filedesc, &line)))
 	{
 		skip = skip_wsp(line);
 		if ((line && (line[0] != COMMENT_CHAR && line[0] != COMMENT_CHAR_2))
@@ -49,15 +49,20 @@ int		read_line(int filedesc, t_asm *data, int *code)
 			if (!data->cmd_name || !data->cmd_comment || line[skip] == '.')
 			{
 				if (!(get_command(filedesc, line + skip, data)))
+				{
+					ft_memdel((void**)&line);
 					return (free_s_asm(&data));
+				}
+				ft_memdel((void**)&line);
 				continue ;
 			}
 			if (!get_instructions(line + skip, data, code))
+			{
+				ft_memdel((void**)&line);
 				return (free_s_asm(&data));
+			}
 		}
 		ft_memdel((void**)&line);
-		if (!eol)
-			break ;
 	}
 	ft_memdel((void**)&line);
 	return (!(*code) ? ft_raise_exception(19, "sh had lbssala ?") : 1);
@@ -79,11 +84,10 @@ int		read_file(int filedesc, t_asm *data)
 {
 	int		code;
 
-
 	code = 0;
 	if (!read_line(filedesc, data, &code))
 		return (0);
-	if (!replace_label_value(data->instructions, data))
+	if (!replace_label_value(data->instructions, data, 2))
 		return (0);
 	write_valid_output(data->file_name);
 	return (1);

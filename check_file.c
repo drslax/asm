@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 08:53:25 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 05:52:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int		open_file(char *filename, t_asm *data)
 	filedesc = open(filename, O_RDONLY);
 	if (errno)
 	{
-		free_s_asm_node(&data);
+		(void)data;
+		//free_s_asm_node(&data);
 		return (-1);
 	}
 	return (filedesc);
@@ -45,17 +46,21 @@ int		read_args(char *filename, t_asm *data)
 	int		filedesc;
 	char	*error;
 
+	error = NULL;
 	filedesc = open_file(filename, data);
-	initialize_asm(&data, filename);
-	if (!errno)
+	if (filedesc >= 0)
 	{
-		if (!read_file(filedesc, data))
+		initialize_asm(&data, filename);
+		if (!errno)
 		{
-			// free_s_asm_node(&data);
-			return (0);
+			if (!read_file(filedesc, data))
+			{
+				// free_s_asm_node(&data);
+				return (0);
+			}
+			close(filedesc);
+			return (1);
 		}
-		close(filedesc);
-		return (1);
 	}
 	error = strerror(errno);
 	ft_raise_exception(19, error);

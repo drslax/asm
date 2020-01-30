@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 08:48:27 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 05:26:36 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ int		manage_inst_name(char *line, t_inst *new)
 	return (ft_raise_exception(12, NULL));
 }
 
+void	fct()
+{
+	
+}
+
 /*
 **	if (!cursor)			== there are no instructions.
 **	if (!*(line + cursor))	== valid instructions with invalid endofline.
@@ -95,7 +100,7 @@ int		get_instructions(char *line, t_asm *data, int *code)
 	inst_name = 0;
 	initialize_instruction(&new);
 	if (!*line)
-		return (1);
+		return (force_quit(NULL, NULL, &new) + 1);
 	if ((cursor = manage_label(line, new)) == -1)
 		return (force_quit(NULL, NULL, &new));
 	if (!*(line + cursor))
@@ -111,7 +116,7 @@ int		get_instructions(char *line, t_asm *data, int *code)
 	if (update_size_instruction(new))
 		data->remain_labels = 1;
 	if (!add_instruction(&data->instructions, new, &data->labels, &num))
-		return (force_quit(NULL, NULL, &new));
+		return (force_quit(NULL, &data, &new));
 	data->size_champ += new->size;
 	*code = 1;
 	return (1);
