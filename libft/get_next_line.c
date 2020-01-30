@@ -3,33 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 04:39:02 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/18 20:47:21 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 08:48:12 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	unsigned int	ft_linelen(char *tab)
+// static	unsigned int	ft_linelen(char *tab, int *newline)
+// {
+// 	unsigned int	i;
+
+// 	i = 0;
+// 	while (tab[i] != '\n' && tab[i] != '\0')
+// 		i++;
+// 	// *newline = tab[i] == '\n' ? 2 : 1;
+// 	return (i);
+// }
+
+static	unsigned int	ft_linelen(char *tab, int *newline)
 {
 	unsigned int	i;
 
 	i = 0;
-	while (tab[i] != '\n' && tab[i] != '\0')
+	while (tab[i] != '\0')
+	{
+		if (tab[i] == '\n')
+		{
+			*newline = 2;
+			return (++i);
+		}
 		i++;
+	}
 	return (i);
 }
 
-static	char			*ft_line(char *tab)
+static	char			*ft_line(char *tab, int *newline)
 {
 	if (ft_strchr(tab, '\n'))
 	{
 		ft_strcpy(tab, ft_strchr(tab, '\n') + 1);
 		return (tab);
 	}
-	if (ft_linelen(tab) > 0)
+	if (ft_linelen(tab, newline) > 0)
 	{
 		ft_strcpy(tab, ft_strchr(tab, '\0'));
 		return (tab);
@@ -40,10 +58,12 @@ static	char			*ft_line(char *tab)
 int						get_next_line(int const fd, char **line)
 {
 	char			*tmp;
+	int				newline;
 	char			buff[BUFF_SIZE + 1];
 	static char		*tab[MAX_FD];
 	int				ret;
 
+	newline = 1;
 	if (fd < 0 || BUFF_SIZE < 1 || !line || read(fd, buff, 0) < 0)
 		return (-1);
 	if (!(tab[fd]) && (tab[fd] = ft_strnew(0)) == NULL)
@@ -55,11 +75,11 @@ int						get_next_line(int const fd, char **line)
 		tab[fd] = ft_strnjoin(tmp, buff, ret);
 		free(tmp);
 	}
-	*line = ft_strsub(tab[fd], 0, ft_linelen(tab[fd]));
-	if (ft_line(tab[fd]) == NULL)
+	*line = ft_strsub(tab[fd], 0, ft_linelen(tab[fd], &newline));
+	if (ft_line(tab[fd], &newline) == NULL)
 	{
 		tab[fd] ? ft_memdel((void**)&tab[fd]) : 0;
 		return (0);
 	}
-	return (1);
+	return (newline);
 }
