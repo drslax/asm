@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 08:53:46 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 09:17:40 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		main(int argc, char **argv)
 		}
 	else
 		ft_raise_exception(2, NULL);
-	return (1);
+	return (0);
 }
 
 /*

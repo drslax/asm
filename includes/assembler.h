@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 04:42:31 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 09:42:21 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include <errno.h>
 # include <stdio.h>
-# define MAX_INST 10009
 
 extern int	errno;
 extern char	*g_error_strings[];

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 05:26:36 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 09:06:43 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int		manage_inst_name(char *line, t_inst *new)
 	return (ft_raise_exception(12, NULL));
 }
 
-void	fct()
-{
+// void	fct()
+// {
 	
-}
+// }
 
 /*
 **	if (!cursor)			== there are no instructions.
@@ -100,7 +100,7 @@ int		get_instructions(char *line, t_asm *data, int *code)
 	inst_name = 0;
 	initialize_instruction(&new);
 	if (!*line)
-		return (force_quit(NULL, NULL, &new) + 1);
+		return (force_quit(NULL, NULL, &new) + 2);
 	if ((cursor = manage_label(line, new)) == -1)
 		return (force_quit(NULL, NULL, &new));
 	if (!*(line + cursor))

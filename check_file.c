@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 07:44:47 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 08:17:39 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		read_args(char *filename, t_asm *data)
 		{
 			if (!read_file(filedesc, data))
 			{
+				//ft_raise_exception(19, "invalid file");
 				// free_s_asm_node(&data);
 				return (0);
 			}

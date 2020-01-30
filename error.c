@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:43:44 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/28 06:57:13 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 08:17:01 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*g_error_strings[] =
 	"Missing argument",
 	"Invalid name instruction",
 	"Invalid chars in label",
-	"Invalid ENDLINE character",
+	"Invalid ENDLINE",
 	"Syntax Error",
 	"Invalid number of arguments",
 	"Invalid type of argument",

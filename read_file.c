@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 07:47:24 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/30 09:57:21 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int		get_command(int filedesc, char *line, t_asm *data)
 		return (store_name_command(data, line, filedesc, name_buffer));
 	else if (!name_cmd && comment_cmd)
 		return (store_comment_command(data, line, filedesc, comment_buffer));
-	ft_memdel((void**)&line);
 	return (0);
 }
 
@@ -37,10 +36,19 @@ int		read_line(int filedesc, t_asm *data, int *code)
 {
 	int		eol;
 	int		skip;
+	int		get;
+	int		newline;
 	char	*line;
 
+	get = 0;
 	while ((eol = get_next_line(filedesc, &line)) > 0)
 	{
+		newline = 0;
+		if (*(line + ft_strlen(line) - 1) == '\n')
+		{
+			*(line + ft_strlen(line) - 1) = '\0';
+			newline = 1;
+		}
 		skip = skip_wsp(line);
 		if ((line && (line[0] != COMMENT_CHAR && line[0] != COMMENT_CHAR_2))
 			&& !ft_strequ(line, ""))
@@ -56,7 +64,7 @@ int		read_line(int filedesc, t_asm *data, int *code)
 				ft_memdel((void**)&line);
 				continue ;
 			}
-			if (!get_instructions(line + skip, data, code))
+			if (!(get = get_instructions(line + skip, data, code)))
 			{
 				ft_memdel((void**)&line);
 				return (free_s_asm(&data));
@@ -64,8 +72,9 @@ int		read_line(int filedesc, t_asm *data, int *code)
 		}
 		ft_memdel((void**)&line);
 	}
-	eol > 0 ? ft_memdel((void**)&line) : 0;
-	return (!(*code) ? ft_raise_exception(19, "sh had lbssala ?") : 1);
+	eol >= 0 ? ft_memdel((void**)&line) : 0;
+	return (!(*code) || (!newline && get != 2) ?
+		ft_raise_exception(19, "sh had lbssala ?") : 1);
 }
 
 void	write_valid_output(char *file_name)
