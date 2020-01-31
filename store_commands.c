@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 03:41:52 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 10:33:49 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/31 22:37:03 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ int		store_command(int fd, char *line, char *buffer, size_t buffsize)
 	int		inquote;
 	int		index;
 	size_t	buffer_index;
-
+	char	*value;
 
 	
 	index = 0;
 	inquote = 0;
 	newline = 0;
+	value = NULL;
 	buffer_index = ft_strlen(buffer);
 	if (buffer_index)
 		inquote = 1;
@@ -40,7 +41,10 @@ int		store_command(int fd, char *line, char *buffer, size_t buffsize)
 			if (buffer_index >= buffsize)
 			{
 				ft_memdel((void**)&newline);
-				return (ft_raise_exception(6, ft_itoa(buffsize)));
+				value = ft_itoa(buffsize);
+				ft_raise_exception(6, value);
+				ft_memdel((void**)&value);
+				return (0);
 			}
 			buffer[buffer_index] = line[index];
 			buffer_index++;
@@ -66,7 +70,10 @@ int		store_command(int fd, char *line, char *buffer, size_t buffsize)
 	if (buffer_index > buffsize)
 	{
 		ft_memdel((void**)&newline);
-		return (ft_raise_exception(6, ft_itoa(buffsize)));
+		value = ft_itoa(buffsize);
+		ft_raise_exception(6, value);
+		ft_memdel((void**)&value);
+		return (0);
 	}
 	return (1);
 }

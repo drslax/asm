@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 03:14:11 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/30 04:48:57 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/31 22:31:50 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int		get_label_line(t_asm *data, t_inst *inst, int id, int *error)
 {
 	int		index;
 	t_label	*label;
+	char	*value;
 
 	label = data->labels;
 	index = 0;
+	value = NULL;
 	while (index < label->id)
 	{
 		if (ft_strequ(label[index].addr->label,
@@ -28,7 +30,10 @@ int		get_label_line(t_asm *data, t_inst *inst, int id, int *error)
 		index += 1;
 	}
 	*error = 1;
-	return (ft_raise_exception(7, ft_itoa(inst->line)));
+	value = ft_itoa(inst->line);
+	ft_raise_exception(7, value);
+	ft_memdel((void**)&value);
+	return (0);
 }
 
 void	replace_by_type(t_inst *inst, int index, int value)
