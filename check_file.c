@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 04:51:53 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 08:17:39 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/31 23:50:33 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int		read_args(char *filename, t_asm *data)
 		{
 			if (!read_file(filedesc, data))
 			{
-				//ft_raise_exception(19, "invalid file");
-				// free_s_asm_node(&data);
 				return (0);
 			}
 			close(filedesc);
@@ -72,11 +70,11 @@ int		parse_args(char *filename, t_asm *data)
 	{
 		if (read_args(filename, data))
 			return (1);
-		free_s_asm(&data);
+		free_s_asm(&data, NULL, 0);
 		free_s_asm_node(&data);
 		return (0);
 	}
-	free_s_asm(&data);
+	free_s_asm(&data, NULL, 0);
 	free_s_asm_node(&data);
 	return (ft_raise_exception(0, filename));
 }

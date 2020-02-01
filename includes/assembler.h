@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:30 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 09:42:21 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/02/01 01:16:53 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		check_valid_args(t_inst *inst);
 int		str_type_arg(char *arg);
 int		type_size(int type, int id);
 int		update_size_instruction(t_inst *inst);
+int		line_to_manage(char *line);
 
 int		replace_label_value(t_inst *inst, t_asm *data, int index);
 int		get_value(t_asm *data, int current_line, int position);
@@ -101,7 +102,7 @@ void	ft_write_short(int filedesc, short value);
 void	ft_write_int(int filedesc, int value);
 void	ft_write_bytes(int filedesc, unsigned char *bytes, size_t size);
 
-int		free_s_asm(t_asm **data);
+int		free_s_asm(t_asm **data, char **line, int permission);
 int		free_s_asm_node(t_asm **data);
 void	free_s_instructions(t_inst **inst);
 int		force_quit(char *line, t_asm **data, t_inst **inst);

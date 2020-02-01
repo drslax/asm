@@ -6,22 +6,11 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 04:39:02 by aelouarg          #+#    #+#             */
-/*   Updated: 2020/01/30 08:48:12 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/31 23:47:29 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-// static	unsigned int	ft_linelen(char *tab, int *newline)
-// {
-// 	unsigned int	i;
-
-// 	i = 0;
-// 	while (tab[i] != '\n' && tab[i] != '\0')
-// 		i++;
-// 	// *newline = tab[i] == '\n' ? 2 : 1;
-// 	return (i);
-// }
 
 static	unsigned int	ft_linelen(char *tab, int *newline)
 {

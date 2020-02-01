@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 09:57:21 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/02/01 01:16:22 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ int		get_command(int filedesc, char *line, t_asm *data)
 	return (0);
 }
 
+void	endline_null(char *line, int *newline)
+{
+	*newline = 0;
+	if (*(line + ft_strlen(line) - 1) == '\n')
+	{
+		*(line + ft_strlen(line) - 1) = '\0';
+		*newline = 1;
+	}
+}
+
 int		read_line(int filedesc, t_asm *data, int *code)
 {
 	int		eol;
@@ -40,35 +50,19 @@ int		read_line(int filedesc, t_asm *data, int *code)
 	int		newline;
 	char	*line;
 
-	get = 0;
 	while ((eol = get_next_line(filedesc, &line)) > 0)
 	{
-		newline = 0;
-		if (*(line + ft_strlen(line) - 1) == '\n')
-		{
-			*(line + ft_strlen(line) - 1) = '\0';
-			newline = 1;
-		}
+		endline_null(line, &newline);
 		skip = skip_wsp(line);
-		if ((line && (line[0] != COMMENT_CHAR && line[0] != COMMENT_CHAR_2))
-			&& !ft_strequ(line, ""))
+		if (line_to_manage(line))
 		{
 			ft_find_comment(line);
-			if (!data->cmd_name || !data->cmd_comment || line[skip] == '.')
-			{
+			if ((!(!data->cmd_name || !data->cmd_comment || line[skip] == '.'))
+				&& (!(get = get_instructions(line + skip, data, code))))
+				return (free_s_asm(&data, &line, 1));
+			else if (!data->cmd_name || !data->cmd_comment || line[skip] == '.')
 				if (!(get_command(filedesc, line + skip, data)))
-				{
-					ft_memdel((void**)&line);
-					return (free_s_asm(&data));
-				}
-				ft_memdel((void**)&line);
-				continue ;
-			}
-			if (!(get = get_instructions(line + skip, data, code)))
-			{
-				ft_memdel((void**)&line);
-				return (free_s_asm(&data));
-			}
+					return (free_s_asm(&data, &line, 1));
 		}
 		ft_memdel((void**)&line);
 	}
@@ -85,7 +79,7 @@ void	write_valid_output(char *file_name)
 	name = ft_strsub(file_name, 0, ft_strlen(file_name) - 2);
 	path = ft_strjoin(name, ".cor");
 	ft_memdel((void**)&name);
-	printf("Writing output program to %s\n", path);
+	ft_printf("Writing output program to %s\n", path);
 	ft_memdel((void**)&path);
 }
 

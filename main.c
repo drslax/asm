@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:34:08 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 09:17:40 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/31 23:50:49 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		main(int argc, char **argv)
 				continue ;
 			}
 			write_file(data);
-			free_s_asm(&data);
+			free_s_asm(&data, NULL, 0);
 			free_s_asm_node(&data);
 		}
 	else

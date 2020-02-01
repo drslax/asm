@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 04:27:24 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 05:00:06 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/02/01 01:18:04 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,13 @@ int	str_type_arg(char *arg)
 		return (T_IND);
 	if (arg && *arg == LABEL_CHAR)
 		return (T_IND);
+	return (0);
+}
+
+int		line_to_manage(char *line)
+{
+	if ((line && (line[0] != COMMENT_CHAR && line[0] != COMMENT_CHAR_2))
+			&& !ft_strequ(line, ""))
+		return (1);
 	return (0);
 }

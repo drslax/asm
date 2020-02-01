@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 04:35:36 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/30 09:06:43 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/02/01 01:22:19 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,6 @@ int		manage_inst_name(char *line, t_inst *new)
 	return (ft_raise_exception(12, NULL));
 }
 
-// void	fct()
-// {
-	
-// }
-
 /*
 **	if (!cursor)			== there are no instructions.
 **	if (!*(line + cursor))	== valid instructions with invalid endofline.
@@ -97,7 +92,6 @@ int		get_instructions(char *line, t_asm *data, int *code)
 	t_inst		*new;
 	static int	num;
 
-	inst_name = 0;
 	initialize_instruction(&new);
 	if (!*line)
 		return (force_quit(NULL, NULL, &new) + 2);
@@ -105,16 +99,14 @@ int		get_instructions(char *line, t_asm *data, int *code)
 		return (force_quit(NULL, NULL, &new));
 	if (!*(line + cursor))
 		return (label_simple_line(&num, cursor, data, new));
-	inst_name = manage_inst_name(line + cursor, new);
-	cursor += inst_name;
+	cursor += (inst_name = manage_inst_name(line + cursor, new));
 	if (!cursor || !inst_name)
 		return (force_quit(NULL, NULL, &new));
 	if (!*(line + cursor))
 		return (ft_raise_exception(14, NULL));
 	if (!(manage_arguments(line + cursor, new)))
 		return (force_quit(NULL, NULL, &new));
-	if (update_size_instruction(new))
-		data->remain_labels = 1;
+	update_size_instruction(new);
 	if (!add_instruction(&data->instructions, new, &data->labels, &num))
 		return (force_quit(NULL, &data, &new));
 	data->size_champ += new->size;
