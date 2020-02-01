@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 22:21:57 by slyazid           #+#    #+#             */
-/*   Updated: 2020/02/01 01:16:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/02/01 02:17:37 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	write_valid_output(char *file_name)
 	name = ft_strsub(file_name, 0, ft_strlen(file_name) - 2);
 	path = ft_strjoin(name, ".cor");
 	ft_memdel((void**)&name);
-	ft_printf("Writing output program to %s\n", path);
+	ft_putstr("Writing output program to ");
+	ft_putendl(path);
 	ft_memdel((void**)&path);
 }
 

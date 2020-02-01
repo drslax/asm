@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 03:47:29 by slyazid           #+#    #+#             */
-/*   Updated: 2020/01/29 06:00:26 by slyazid          ###   ########.fr       */
+/*   Updated: 2020/01/29 03:47:59 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,34 +67,3 @@ void	print_labels(t_label *labels)
 		}
 	}
 }
-
-
-
-// int		replace(t_inst *inst, t_asm *data, int index)
-// {
-// 	int		diff_line;
-// 	char	*name;
-// 	int		error;
-// 	int		value;
-
-// 	error = 0;
-// 	if (!inst)
-// 		return (1);
-// 	if (!index)
-// 		return (replace(inst->next, data, index));
-// 	else
-// 	{
-// 		name = inst->args[index]->name;
-// 		if ((name && name + 1 && *(name + 1) == LABEL_CHAR) ||
-// 			(name && *name == LABEL_CHAR))
-// 		{
-// 			diff_line = get_label_line(data, inst, index, &error);
-// 			if (error)
-// 				return (0);
-// 			value = get_value(data, inst->line, diff_line);
-// 			ft_memdel((void**)&(inst->args[index]->name));
-// 			replace_by_type(inst, index, value);
-// 		}
-// 		return (replace(inst, data, index - 1));
-// 	}
-// }
