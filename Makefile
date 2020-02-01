@@ -4,7 +4,7 @@ FLAGS		= -Wall -Wextra -Werror -g
 NAME		= asm
 FILENAMES 	= *.c 
 HDR 		= -I./includes -I./libft/ -I./lib2
-LIBFT		= libftprintf.a libft/libft.a
+LIBFT		= libft/libft.a
 
 all: $(NAME)
 
